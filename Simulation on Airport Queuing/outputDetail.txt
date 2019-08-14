@@ -1,0 +1,13 @@
+T=<0>
+OFFDUTY=N
+	State	CustNo	ServLen	RestLen	WinlistState	WinListCustCount	WinListCust
+WIN1	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN2	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN3	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN4	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN5	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN6	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN7	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+WIN8	ø’œ–÷–	0	0/0	0/0	NOTCHANGE	0			
+ListLines:0
+ListCustCount:0

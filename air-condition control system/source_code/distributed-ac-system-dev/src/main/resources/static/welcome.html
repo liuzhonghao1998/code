@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/style_new.css"/>
+    <script src="js/js.js"></script>
+
+	<script href="js/jquery.js"></script>
+    <script href="js/popper.min.js"></script>
+    <script herf="js/bootstrap.min.js"></script>    
+
+</head>
+<body style="background-color: #c8c8c8">
+<div class="container" style="margin-top: 70px;width: 50%;padding-left: 350px">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <form class="form-horizontal" action="/login">
+                <span class="heading">用户登录</span>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" id="inputEmail3" placeholder="账号">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="form-group help">
+                    <input type="password" class="form-control" name="password" id="inputPassword3" placeholder="密码">
+                    <i class="fa fa-lock"></i>
+                    <a href="#" class="fa fa-question-circle"></a>
+                </div>
+                <div class="form-group" style="text-align: center">
+<!--                    <div class="main-checkbox">-->
+<!--                        <input type="checkbox" value="None" id="checkbox1" name="check"/>-->
+<!--                        <label for="checkbox1"></label>-->
+<!--                    </div>-->
+<!--                    <span class="text">Remember me</span>-->
+                    <div>
+                        <button type="submit" class="btn btn-default" id="login">登录</button>
+                        <button type="submit" class="btn btn-default" style="margin-left: 40px" id="login_reset">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+	
+</body>
+</html>

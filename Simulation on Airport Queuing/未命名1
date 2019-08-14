@@ -1,0 +1,13 @@
+#include<time.h>
+extern timecount;
+void time_count()
+{
+	clock_t start,finish;
+	double duration=0.0;
+	start=clock();
+	while(duration<1.0){
+		finish=clock();
+		duration=(double)(finish-start)/CLOCKS_PER_SEC;
+	}
+	timecount++;  
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@我的人</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-image: url('/static/forbidden_city8.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3" style=" opacity:0.8; background-color:#fff; border:1px solid black;border-radius:5px;">
+            <p style="font-size:20px">@我的人</p>
+        </div>
+        <div class="col-sm-8"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-warning btn-sm" onclick="window.location.href='/mysite/tolist/'">返回主页</button>
+        </div>
+    </div>
+    <br>
+    {% for mention in mentionlist %}
+        {% if mention.to_weibo != "" %}
+            <div clas="row">
+                <div class="con-sm-12"
+                     style=" opacity:0.8; background-color:#fff;  border:1px solid black;border-radius:5px;">
+                    <p style="font-size:20px">                            {% if mention.to_weibo.user.id == user.id %}
+                        <button type="button" class="btn btn-link"
+                                onclick="window.location.href='/mysite/tomyweibo/'">
+                        <p style="font-size:15px">{{ mention.to_weibo.user.name }}
+                        </p>
+                        </button>
+                    {% else %}
+                        <button type="button" class="btn btn-link"
+                                onclick="window.location.href='/mysite/tohisweibo/?hisid={{ mention.to_weibo.user.id }}'">
+                            <p style="font-size:15px">{{ mention.to_weibo.user.name }}
+                            </p>
+                        </button>
+                    {% endif %}
+                    在微博中
+                    <button class="btn btn-link" style="font-size:20px"
+                            onclick="window.location.href='/mysite/toconcent/?mentionid={{ mention.id }}'">@
+                    </button>
+                    了我
+                    </p>
+                <p style="font-size: 5px">{{ mention.date }}</p>
+                </div>
+            </div>
+        {% else %}
+            {% if mention.comment != "" %}
+                {% if mention.comment.p_comment == "" %}
+                    <div clas="row">
+                        <div class="con-sm-12"
+                             style=" opacity:0.8; background-color:#fff;  border:1px solid black;border-radius:5px;">
+                            <p>{% if mention.comment.user.id == user.id %}
+                                <button type="button" class="btn btn-link"
+                                        onclick="window.location.href='/mysite/tomyweibo/'">
+                                <p style="font-size:15px">{{ mention.comment.user.name }}
+                                </p>
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn btn-link"
+                                        onclick="window.location.href='/mysite/tohisweibo/?hisid={{ mention.comment.user.id }}'">
+                                    <p style="font-size:15px">{{ mention.comment.user.name }}
+                                    </p>
+                                </button>
+                            {% endif %}
+                            在评论中
+                            <button class="btn btn-link" style="font-size:20px"
+                                    onclick="window.location.href='/mysite/toconcent/?mentionid={{ mention.id }}'">@
+                            </button>
+                            了我
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div clas="row">
+                        <div class="con-sm-12"
+                             style=" opacity:0.8; background-color:#fff;  border:1px solid black;border-radius:5px;">
+                            <p>{% if mention.comment.user.id == user.id %}
+                                <button type="button" class="btn btn-link"
+                                        onclick="window.location.href='/mysite/tomyweibo/'">
+                                <p style="font-size:15px">{{ mention.comment.user.name }}
+                                </p>
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn btn-link"
+                                        onclick="window.location.href='/mysite/tohisweibo/?hisid={{ mention.comment.user.id }}'">
+                                    <p style="font-size:15px">{{ mention.comment.user.name }}
+                                    </p>
+                                </button>
+                            {% endif %}
+                            在回复中
+                            <button class="btn btn-link" style="font-size:20px"
+                                    onclick="window.location.href='/mysite/toconcent/?mentionid={{ mention.id }}'">@
+                            </button>
+                            了我
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-12">
+                <hr style="color: black">
+            </div>
+        </div> <!--分割线-->
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="../favicon.ico" >
+<link rel="Shortcut Icon" href="../favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="../lib/html5.js"></script>
+<script type="text/javascript" src="../lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="../h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="../h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="../h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="../h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="../css/public.css"/>
+<link rel="stylesheet" href="../css/style.css"/>
+<script src="../js/jquery.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>房间空调管理界面</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" >酒店空调管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" >H-ui</a>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li id="username">顾客</li>
+					<li class="dropDown dropDown_hover"><a class="dropDown_A">customer <em class="Hui-iconfont"></em></a>
+					  <ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="#">退出</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	
+	<div class="menu_dropdown bk_2">
+		
+	  <dl id="setStartTemp">
+			<dt><em class="Hui-iconfont"></em> 设置初始温度</dt>
+		</dl>
+		
+		<dl id="customerRequestOn">
+			<dt><em class="Hui-iconfont"></em> 打开空调</dt>
+		</dl>
+		
+		
+		<dl id="customerRequestOff">
+		  <dt><i class="Hui-iconfont">&#xe726;</i> 关闭空调</dt>
+		</dl>
+		
+	  <dl id="customerRequestRoomState">
+			<dt><i class="Hui-iconfont">&#xe623;</i> 查看房间状态</dt>
+		</dl>
+		
+		<dl id="setRoomState-menu">
+			<dt><em class="Hui-iconfont"></em> 空调参数管理<em class="Hui-iconfont menu_dropdown-arrow"></em></dt>
+			<dd>
+				<ul>
+					<li><a title="调节温度" id="customerRequestChangingTemperature">调节温度</a></li>
+					<li><a  title="调节风速" id="customerRequestChangingFanSpeed">调节风速</a></li>
+				</ul>
+			</dd>
+		</dl>
+	</div>
+</aside>
+<!--/_menu 作为公共模版分离出去-->
+<section class="Hui-article-box" id="customerInit">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 顾客 </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+		<div class="right" >
+        <img class="wColck" src="../img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Customer</h2>
+            <p><b>请选择要执行的功能!</b></p>
+        </div>
+    </div>
+		</article>
+	</div>
+</section>
+
+
+<section class="Hui-article-box" id="customerSetInitTemp">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 顾客 
+		<span class="c-gray en">&gt;</span> 设置初始温度
+	</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			    <form class="form form-horizontal">
+					<div class="row cl">
+						<label class="form-label col-xs-6 col-sm-3"><span class="c-red">*</span>初始温度：</label>
+						<div class="formControls col-xs-3 col-sm-2">
+							<input type="text" class="input-text" value="30" name="customerRoomInitTemp" id="customerRoomInitTemp">
+						</div>
+					</div>
+				<div class="row cl">
+					<div class="col-xs-4 col-sm-5 col-xs-offset-4 col-sm-offset-3">
+						<input class="btn btn-primary radius" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="saveCustomerRoomInitTemp">
+					</div>
+				</div>
+			</form>
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="customerRoomStatePage">
+	<nav class="breadcrumb"><em class="Hui-iconfont"></em> 首页 <span class="c-gray en">&gt;</span> 顾客 <span class="c-gray en">&gt;</span> 查看房间状态 </nav>
+	<div class="Hui-article" >
+		<article class="cl pd-20">
+		<table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr class="firstTr">
+                <th>开机状态</th>
+                <td id="customerRoomPowerOn"></td>
+            </tr>
+            <tr>
+                <th>服务状态</th>
+                <td id="customerRoomServer"></td>
+            </tr>
+            <tr>
+                <th>当前室温</th>
+                <td id="customerRoomCurTemperature"></td>
+            </tr>
+            <tr>
+                <th>目标温度</th>
+                <td id="customerRoomTarTemperature"></td>
+            </tr>
+            <tr>
+                <th>风速</th>
+                <td id="customerRoomSpeed"></td>
+            </tr>
+            <tr>
+                <th>费率</th>
+                <td id="customerRoomFeeRate"></td>
+            </tr>
+            <tr>
+                <th>总费用</th>
+                <td id="customerRoomTotalFee"></td>
+            </tr>
+            <tr>
+                <th>已运行时间</th>
+                <td id="customerRoomRunningTime"></td>
+            </tr>
+        </table>
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="customerTemperaturePage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 顾客 <span class="c-gray en">&gt;</span> 调节温度</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<h2 align="center">设置目标温度</h2>
+			  <div class="removeMain" >
+                    <input class="addBtn min" type="button" id="minTemp" value="-" />
+                    <input type="text" name="CustomerTemp" id="CustomerTemp" />
+                    <input class="addBtn add" type="button" id="addTemp" value="+" />
+                </div>
+			<div align="center">
+				<input  class="btn btn-primary radius" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="saveCustomerTemp">
+			</div>
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="customerFanSpeedPage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 顾客 <span class="c-gray en">&gt;</span> 调节风速</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<h2 align="center">设置风速</h2>
+			  <div class="removeMain" >
+                    <label for="selectedFSpeed">风速选择:</label>
+                    <select id="selectedFSpeed">
+                        <option value ="LOW">Low</option>
+                        <option value ="MIDDLE">Middle</option>
+                        <option value="HIGH">High</option>
+                    </select>
+                </div>
+			<div align="center">
+				<input  class="btn btn-primary radius" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="saveCustomerFSpeed">
+			</div>
+		</article>
+	</div>
+</section>
+	
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="../h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="../h-ui.admin/js/H-ui.admin.page.js"></script> 
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="../lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="../lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+var customerTimer;
+
+var curRoomID = window.location.href;
+curRoomID = curRoomID.charAt(curRoomID.length - 1);
+var usernameBox=document.getElementById("username");
+usernameBox.innerHTML="房间 "+curRoomID;
+$("#customerRequestOn").hide();
+$("#customerRequestOff").hide();
+$("#customerRequestRoomState").hide();
+$("#setRoomState-menu").hide();
+	
+$("#customerTemperaturePage").hide();
+$("#customerFanSpeedPage").hide();
+$("#customerInit").hide();
+$("#customerRoomStatePage").hide();
+$("#customerSetInitTemp").show();
+
+function refreshCustomerRoomSate(roomID){
+    $.ajax({
+        headers: {},
+        url: "/customer/requestRoomState",
+        type: "GET",
+        dataType: "json",
+        data: {"roomID": parseInt(roomID)},
+        success: function (data) {
+            if(!data['powerOn']){
+                $('#customerRoomPowerOn').text("OFF");
+            }
+            else{
+                $('#customerRoomPowerOn').text("ON");
+            }
+            if(!data['inService']){
+                $('#customerRoomServer').text("OFF");
+            }
+            else{
+                $('#customerRoomServer').text("ON");
+            }
+            $('#customerRoomCurTemperature').text(Math.round(data['nowTemp']).toFixed(2));
+            $('#customerRoomTarTemperature').text(Math.round(data['tarTemp']).toFixed(2));
+            $('#customerRoomSpeed').text(data['funSpeed']);
+            $('#customerRoomFeeRate').text(data['feeRate']);
+            $('#customerRoomTotalFee').text(data['totalFee'].toFixed(2));
+
+            var runningTime = data['runningTime'];
+            var hour = Math.floor(runningTime / 3600);
+            runningTime = runningTime % 3600;
+            var min = Math.floor(runningTime / 60);
+            min = (Array(2).join('0') + min).slice(-2);
+            var sec = runningTime % 60;
+            sec = (Array(2).join('0') + sec).slice(-2);
+            runningTime = hour.toString() + "h " + min.toString() + "m " + sec.toString() + "s";
+            $('#customerRoomRunningTime').text(runningTime);
+        },
+        error: function () {
+      
+        }
+    });
+}
+
+$('#setStartTemp').click(function(){
+		$("#customerSetInitTemp").show();
+		$("#customerTemperaturePage").hide();
+		$("#customerFanSpeedPage").hide();
+		$("#customerInit").hide();
+		$("#customerRoomStatePage").hide();
+		
+	})
+  $('#saveCustomerRoomInitTemp').click(function () {
+        var roomInitTemp = parseInt($('#customerRoomInitTemp').val());
+        var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+
+        $.ajax({
+            headers: {},
+            url: "/customer/setInitTemp",
+            type: "POST",
+            dataType: "json",
+            data: {"roomID": parseInt(curRoomID), "initTemp": roomInitTemp},
+            success: function (data) {
+                if(data['statue'] == "success"){
+					$("#customerInit").show();
+					$('#customerSetInitTemp').hide();
+                    $('#customerRequestOn').show();
+					$("#customerRequestRoomState").show();
+					$('#setStartTemp').hide();
+					
+                }
+                else{
+                    alert("设置失败");
+                }
+            },
+            error: function () {
+                alert("设置失败");
+            }
+        });
+
+    });
+ //Turn on the air-conditioner
+$("#customerRequestOn").click(function(){
+	 var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+        clearInterval(customerTimer);
+        $.ajax({
+            headers: {},
+            url: "/customer/requestOn",
+            type: "POST",
+            dataType: "json",
+            data: {"roomID": parseInt(curRoomID)},
+            success: function (data) {
+                if(data['statue'] == "success"){
+                    alert("成功打开");
+					
+                }
+                else{
+                    alert("空调已打开");
+                }
+				$("#customerRequestOn").hide();
+				$("#customerRequestOff").show();
+				$("#setRoomState-menu").show();
+
+                $("#customerSetInitTemp").hide();
+                $("#customerTemperaturePage").hide();
+                $("#customerFanSpeedPage").hide();
+                $("#customerInit").show();
+                $("#customerRoomStatePage").hide();
+
+                customerTimer = setInterval(function () {
+            refreshCustomerRoomSate(curRoomID);
+            }, 1000);
+            },
+            error: function () {
+                alert("打开失败");
+            }
+        });
+})
+//Turn off the air-conditioner
+    $('#customerRequestOff').click(function () {
+        clearInterval(customerTimer);
+        var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+        $.ajax({
+            headers: {},
+            url: "/customer/requestOff",
+            type: "POST",
+            dataType: "json",
+            data: {"roomID": parseInt(curRoomID)},
+            success: function (data) {
+                if(data['statue'] == "success"){
+                    alert("成功关闭");
+					
+                }
+                else{
+                    alert("空调已关闭");
+                }
+				refreshCustomerRoomSate(curRoomID);
+				$("#customerRequestOn").show();
+				$("#setRoomState-menu").hide();
+				$('#customerRequestOff').hide();
+
+                $("#customerSetInitTemp").hide();
+                $("#customerTemperaturePage").hide();
+                $("#customerFanSpeedPage").hide();
+                $("#customerInit").show();
+                $("#customerRoomStatePage").hide();
+				
+            },
+            error: function () {
+                alert("关闭失败");
+            }
+        });
+    })
+   //Show the room state
+    $('#customerRequestRoomState').click(function () {
+        clearInterval(customerTimer);
+        var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+        	$("#customerTemperaturePage").hide();
+			$("#customerFanSpeedPage").hide();
+			$("#customerInit").hide();
+			$("#customerRoomStatePage").show();
+			$("#customerSetInitTemp").hide();
+        customerTimer = setInterval(function () {
+            refreshCustomerRoomSate(curRoomID);
+        }, 1000);
+    });
+
+    //Change the temperature
+    $('#customerRequestChangingTemperature').click(function () {
+        clearInterval(customerTimer);
+        var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+        $.ajax({
+            headers: {},
+            url: "/customer/requestRoomState",
+            type: "GET",
+            dataType: "json",
+            data: {"roomID": parseInt(curRoomID)},
+            success: function (data) {
+               $("#customerTemperaturePage").show();
+				$("#customerFanSpeedPage").hide();
+				$("#customerInit").hide();
+				$("#customerRoomStatePage").hide();
+				$("#customerSetInitTemp").hide();
+                $('#CustomerTemp').val(data['nowTemp'].toFixed(2));
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('#minTemp').click(function () {
+        var curTemp = parseInt($('#CustomerTemp').val());
+        curTemp = curTemp - 1;
+        $('#CustomerTemp').val(curTemp);
+    });
+    $('#addTemp').click(function () {
+        var curTemp = parseInt($('#CustomerTemp').val());
+        curTemp = curTemp + 1;
+        $('#CustomerTemp').val(curTemp);
+    });
+    $('#saveCustomerTemp').click(function () {
+        var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+        var curTemp = parseInt($('#CustomerTemp').val());
+        $.ajax({
+            headers: {},
+            url: "/customer/changeTargetTemp",
+            type: "POST",
+            dataType: "json",
+            data: {"roomID": parseInt(curRoomID), "targetTemp": curTemp},
+            success: function (data) {
+				if(data['statue']=="success"){
+				alert("调节温度成功");
+                $("#customerTemperaturePage").hide();
+				$("#customerFanSpeedPage").hide();
+				$("#customerInit").show();
+				$("#customerRoomStatePage").hide();
+				$("#customerSetInitTemp").hide();
+					
+				}
+				else{
+					alert("调节温度失败:"+" "+data['statue']);
+				}
+               
+            },
+            error: function () {
+                alert("调节温度失败");
+            }
+        });
+    });
+
+    //Change fan speed
+    $('#customerRequestChangingFanSpeed').click(function () {
+        clearInterval(customerTimer);
+       $("#customerTemperaturePage").hide();
+			$("#customerFanSpeedPage").show();
+			$("#customerInit").hide();
+			$("#customerRoomStatePage").hide();
+			$("#customerSetInitTemp").hide();
+
+    });
+
+    $('#saveCustomerFSpeed').click(function () {
+        var curRoomID = window.location.href;
+        curRoomID = curRoomID.charAt(curRoomID.length - 1);
+        var curFSpeed = $('#selectedFSpeed').val();
+        $.ajax({
+            headers: {},
+            url: "/customer/changeFanSpeed",
+            type: "POST",
+            dataType: "json",
+            data: {"roomID": parseInt(curRoomID), "targetFanSpeed": curFSpeed},
+            success: function () {
+            alert("调节风速成功");
+            $("#customerTemperaturePage").hide();
+			$("#customerFanSpeedPage").hide();
+			$("#customerInit").show();
+			$("#customerRoomStatePage").hide();
+			$("#customerSetInitTemp").hide();
+            },
+            error: function () {
+                alert("调节风速失败");
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

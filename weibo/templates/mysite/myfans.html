@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的粉丝</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="text-align: center;background-image: url('/static/forbidden_city2.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-11"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-warning btn-sm" onclick="window.location.href='/mysite/tolist/'">返回主页</button>
+        </div>
+    </div>
+    {% for myfan in myfanlist %}
+        <div class="row">
+            <div class="col-md-12" style=" opacity:1; background-color:#fff;">
+                <center>
+                    {% if myfan.touxiangimg == "" %}
+                        <img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=5fb248ee858ba61edfbbc0297104bb32/ac345982b2b7d0a2e2734ab9ccef76094b369a58.jpg"
+                             height="40" width="40">
+                    {% else %}
+                        <img src="{{ myfan.touxiangimg.url }}" height="40" width="40"
+                             style="border-radius:200px;">
+                    {% endif %}
+                    <button type="button" class="btn btn-link"><h4>{{ myfan.name }}</h4></button>
+                    <center>
+                        <button type="button" class="btn btn-default btn-md"
+                                onclick="window.location.href='/mysite/tohisweibo/?hisid={{ myfan.id }}'">
+                            <span class="glyphicon glyphicon-user"></span> User
+                        </button>
+                    </center>
+                </center>
+                <div class="row">
+                    <div class="col-md-4" style=" opacity:0.8; background-color:#fff;">
+                    </div>
+                    <div class="col-md-4" style=" opacity:0.8; background-color:#fff;">
+                        <div class="row">
+                            <div class="col-md-4" style=" opacity:0.8; background-color:#fff;">
+                                <h5 class="text-right">
+                                    微博数
+                                </h5>
+                                <p style="font-size:20px" class="text-right">{{ myfan.weibonum }}</p>
+                            </div>
+                            <div class="col-md-4" style=" opacity:0.8; background-color:#fff;">
+                                <h5 class="text-center">
+                                    粉丝
+                                </h5>
+                                <p style="font-size:20px" class="text-center">{{ myfan.fannum }}</p>
+                            </div>
+                            <div class="col-md-4" style=" opacity:0.8; background-color:#fff;">
+                                <h5 class="text-left">
+                                    关注
+                                </h5>
+                                <p style="font-size:20px" class="text-left">{{ myfan.concernnum }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style=" opacity:0.8; background-color:#fff;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+</div>
+</body>
+</html>

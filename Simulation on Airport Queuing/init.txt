@@ -1,0 +1,7 @@
+[MaxCustSingleLine]30
+[MaxLines]8
+[MaxSeqLen]10 
+[MinTimeLen]2
+[MaxTimeLen]5
+[MinRestTimeLen]10
+[MaxRestTimeLen]20

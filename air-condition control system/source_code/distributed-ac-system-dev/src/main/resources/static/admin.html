@@ -1,0 +1,447 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="favicon.ico" >
+<link rel="Shortcut Icon" href="favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="css/public.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<script src="js/jquery.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script><![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>空调管理员界面</title>
+
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl">
+			<a class="logo navbar-logo f-l mr-10 hidden-xs">酒店分布式空调管理系统</a>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li>空调管理员</li>
+					<li class="dropDown dropDown_hover">
+						<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+
+							<li>
+								<a href="#">退出</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	
+	<div class="menu_dropdown bk_2">
+
+	
+		<dl id="menu-startac">
+			<dt><em class="Hui-iconfont" id="startac"></em>启动空调</dt>
+	
+		</dl>
+		<dl id="menu-exitset" href="javascript:void(0)" onclick="location.reload()">
+			<dt><em class="Hui-iconfont" id="exitset"></em>退出参数设置</dt>
+	
+		</dl>
+		<dl id="menu-acstate">
+			<dt><em class="Hui-iconfont" id="acstate"></em>空调已启动</dt>
+		</dl>
+		<dl id="menu-roomstate">
+		  <dt><i class="Hui-iconfont">&#xe62e;</i> 房间状态<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li>
+						<a title="房间1" id="room1">房间1</a>
+					</li>
+					<li>
+						<a title="房间2" id="room2">房间2</a>
+					</li>
+					<li>
+						<a title="房间3" id="room3">房间3</a>
+					</li>
+					<li>
+						<a title="房间4" id="room4">房间4</a>
+					</li>
+				</ul>
+			</dd>
+		</dl>
+	</div>
+</aside>
+<!--/_menu 作为公共模版分离出去-->
+	<!--
+		<section class="Hui-article-box">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		管理员管理界面
+	
+	</nav>
+	
+</section>
+
+<!--启动电源-->
+
+<section class="Hui-article-box" id="powerOnSection">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		管理员管理界面
+	</nav>
+	 <div class="right">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Admin</h2>
+            <p><b>请先启动空调系统!</b></p>
+        </div>
+    </div>
+</section>
+
+<!--设置参数和启动-->
+
+<section class="Hui-article-box" id="saveParamsSection">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		管理员管理界面
+		<span class="c-gray en">&gt;</span>
+		设置空调参数
+	
+	</nav>
+	        <div class="providerAdd">
+            <form action="#">
+                <div class="">
+                    <label for="isCooling">模式：</label>
+                    <select id="isCooling">
+                        <option value ="true">制冷</option>
+                        <option value ="">制热</option>
+                    </select>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="tempHighLimit">空调可设最高温度：</label>
+                    <input type="text" name="tempHighLimit" id="tempHighLimit" />
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="tempLowLimit">空调可设最低温度：</label>
+                    <input type="text" name="tempLowLimit" id="tempLowLimit"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="defaultTargetTemp">默认空调目标温度：</label>
+                    <input type="text" name="defaultTargetTemp" id="defaultTargetTemp"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="feeRateHigh">高风速使用费用率：</label>
+                    <input type="text" name="feeRateHigh" id="feeRateHigh"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="feeRateMiddle">中高风速使用费用率：</label>
+                    <input type="text" name="feeRateMiddle" id="feeRateMiddle"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="feeRateLow">低风速使用费用率：</label>
+                    <input type="text" name="feeRateLow" id="feeRateLow"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="defaultFanSpeed">默认风速：</label>
+                   
+					 <select id="defaultFanSpeed">
+                        <option value ="LOW">LOW</option>
+                        <option value ="MIDDLE">MIDDLE</option>
+						<option value ="HIGH">HIGH</option>
+                    </select>
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="保存" id="saveParams"/>
+                    <input type="button" value="启动" id="startAirSys">
+                    <input type="reset" value="重置" id="resetParams"/>
+                </div>
+            </form>
+        </div>
+</section>	
+	
+<section class="Hui-article-box" id="roomSelectSection">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		管理员管理界面
+		<span class="c-gray en">&gt;</span>
+		房间状态
+
+	</nav>
+
+
+    <!--房间状态信息-->
+	
+    <div id="roomState" style="margin: 10px">
+
+        <table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr class="firstTr">
+                <th>房间号</th>
+                <td><span  id="monitorRoomID"></span></td>
+            </tr>
+            <tr class="firstTr">
+                <th>开机状态</th>
+                <td><span id="roomPowerOn"></span></td>
+            </tr>
+            <tr>
+                <th>服务状态</th>
+                <td><span id="roomServer"></span></td>
+            </tr>
+            <tr>
+                <th>当前室温</th>
+                <td><span id="roomCurTemperature"></span></td>
+            </tr>
+            <tr>
+                <th>目标温度</th>
+                <td><span id="roomTarTemperature"></span></td>
+            </tr>
+            <tr>
+                <th>风速</th>
+                <td><span id="roomSpeed"></span></td>
+            </tr>
+            <tr>
+                <th>费率</th>
+                <td><span id="roomFeeRate"></span></td>
+            </tr>
+            <tr>
+                <th>总费用</th>
+                <td><span id="roomTotalFee"></span></td>
+            </tr>
+            <tr>
+                <th>已运行时间</th>
+                <td><span id="roomRunningTime"></span></td>
+            </tr>
+        </table>
+	
+    </div>
+
+</section>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="h-ui.admin/js/H-ui.admin.page.js"></script>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+//$("#menu-roomstate").hide();
+$("#menu-startac").click(function(){
+					alert("请先设置空调参数");
+					$("#saveParamsSection").show();
+	 				$("#startAirSys").hide();
+					$("#powerOnSection").hide();
+					$('#menu-exitset').show();
+					$('#menu-startac').hide();
+					});
+	document.getElementById("tempHighLimit").value=30;
+    document.getElementById("tempLowLimit").value=16;
+    document.getElementById("defaultTargetTemp").value=24;
+    document.getElementById("feeRateHigh").value=3;
+    document.getElementById("feeRateMiddle").value=2;
+    document.getElementById("feeRateLow").value=1;
+    document.getElementById("defaultFanSpeed").value="MIDDLE";
+	
+	//The function of admin.html
+	$(function () {
+    $('#saveParamsSection').hide();
+    $('#roomSelectSection').hide();
+	$('#menu-acstate').hide();
+	$('#menu-roomstate').hide();
+	$('#menu-exitset').hide();
+		
+});
+
+var roomTimer;
+function roomTimerFunction(str){
+    $.ajax({
+        url: "/admin/roomState/" + str,
+        type: "GET",
+        global: "false",
+        dataType: "json",
+        data: {},
+        success: function (data) {
+            $('#roomState').show();
+            $('#roomSelect').hide();
+            if(!data['powerOn']){
+                $('#roomPowerOn').text("OFF");
+            }
+            else{
+                $('#roomPowerOn').text("ON");
+            }
+            if(!data['inService']){
+                $('#roomServer').text("OFF");
+            }
+            else{
+                $('#roomServer').text("ON");
+            }
+            $('#roomCurTemperature').text(Math.round(data['nowTemp']).toFixed(2));
+            $('#roomTarTemperature').text(Math.round(data['tarTemp']).toFixed(2));
+            $('#roomSpeed').text(data['funSpeed']);
+            $('#roomFeeRate').text(data['feeRate']);
+            $('#roomTotalFee').text(data['totalFee'].toFixed(2));
+
+            var runningTime = data['runningTime'];
+            var hour = Math.floor(runningTime / 3600);
+            runningTime = runningTime % 3600;
+            var min = Math.floor(runningTime / 60);
+            min = (Array(2).join('0') + min).slice(-2);
+            var sec = runningTime % 60;
+            sec = (Array(2).join('0') + sec).slice(-2);
+            runningTime = hour.toString() + "h " + min.toString() + "m " + sec.toString() + "s";
+            $('#roomRunningTime').text(runningTime);
+        },
+        error: function () {
+            alert("查询失败！");
+        }
+    });
+}
+
+$(function () {
+    //Control power on
+    $('#powerOn').click(function () {
+        $.ajax({
+            url: "http://localhost:8080/admin/powerOn",
+            type: "GET",
+            global: "false",
+            success: function () {
+                $('#powerOnSection').hide();
+                $('#saveParamsSection').show();
+                alert("请填写参数");
+            },
+            error: function () {
+                alert("请重试！");
+            }
+        })
+    });
+
+    //Save parameters
+    $('#saveParams').click(function () {
+        var isCooling = $('#isCooling').val();
+        var tempHighLimit = $("#tempHighLimit").val();
+        var tempLowLimit = $("#tempLowLimit").val();
+        var defaultTargetTemp = $("#defaultTargetTemp").val();
+        var feeRateHigh = $("#feeRateHigh").val();
+        var feeRateMiddle = $("#feeRateMiddle").val();
+        var feeRateLow = $("#feeRateLow").val();
+        var defaultFanSpeed = $("#defaultFanSpeed").val();
+
+        var isPositiveInt = /^[0-9]*[1-9][0-9]*$/;
+        var isPositiveFloat = /^\\d+(\\.\\d+)?$/;
+
+        $.ajax({
+            url: "http://localhost:8080/admin/setParams",
+            type: "POST",
+            global: "false",
+            dataType: 'json',
+            data: {
+                "isCooling": Boolean(isCooling),
+                "tempHighLimit": parseInt(tempHighLimit),
+                "tempLowLimit": parseInt(tempLowLimit),
+                "defaultTargetTemp": parseInt(defaultTargetTemp),
+                "feeRateHigh": parseFloat(feeRateHigh),
+                "feeRateMiddle": parseFloat(feeRateMiddle),
+                "feeRateLow": parseFloat(feeRateLow),
+                "defaultFanSpeed": defaultFanSpeed
+            },
+            success: function () {
+                $("#saveParams").hide();
+                $("#resetParams").hide();
+                $("#startAirSys").show();
+				
+                alert("保存成功，请启动")
+            },
+            error: function () {
+                alert("保存失败！");
+            }
+        })
+    });
+    //启动系统
+    $("#startAirSys").click(function () {
+        $.ajax({
+            url: "http://localhost:8080/admin/startup",
+            type: "GET",
+            global: "false",
+            success: function () {
+                $('#saveParamsSection').hide();
+                $('#roomSelectSection').show();
+				$('#menu-acstate').show();
+				$('#menu-roomstate').show();
+                $('#roomState').hide();
+				
+				$('#menu-exitset').hide();
+            },
+            error: function () {
+                alert("启动失败！");
+            }
+        });
+    });
+
+    //监视房间
+    $('#room1').click(function () {
+        $('#monitorRoomID').text("一");
+        clearInterval(roomTimer);
+        roomTimer = setInterval(function () {
+            roomTimerFunction("1");
+        }, 1000);
+    });
+
+    $('#room2').click(function () {
+        $('#monitorRoomID').text("二");
+        clearInterval(roomTimer);
+        roomTimer = setInterval(function () {
+            roomTimerFunction("2");
+        }, 1000);
+    });
+    $('#room3').click(function () {
+        $('#monitorRoomID').text("三");
+        clearInterval(roomTimer);
+        roomTimer = setInterval(function () {
+            roomTimerFunction("3");
+        }, 1000);
+    });
+
+    $('#room4').click(function () {
+        $('#monitorRoomID').text("四");
+        clearInterval(roomTimer);
+        roomTimer = setInterval(function () {
+            roomTimerFunction("4");
+        }, 1000);
+    });
+});
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

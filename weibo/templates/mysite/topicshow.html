@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>话题展示</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-image: url('/static/forbidden_city8.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="opacity:0.8; background-color:#fff; border:1px solid black;border-radius:5px;">
+            <p style="font-size: 20px">话题： {{ thistopic.name }}</p>
+        </div>
+        <div class="col-sm-7"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-warning btn-sm" onclick="window.location.href='/mysite/tolist/'">返回主页</button>
+        </div>
+    </div>
+    <br>
+    {% for topicweibo in topicweibolist %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-1"
+                         style=" opacity:1; background-color:#fff; border:1px solid black;border-radius:5px;">
+                        <center>
+                            {% if topicweibo.user.touxiangimg == "" %}
+                                <img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=5fb248ee858ba61edfbbc0297104bb32/ac345982b2b7d0a2e2734ab9ccef76094b369a58.jpg"
+                                     height="40" width="40">
+                            {% else %}
+                                <img src="{{ topicweibo.user.touxiangimg.url }}" height="40" width="40"
+                                     style="border-radius:200px;">
+                            {% endif %}<br>
+                            {% if topicweibo.user.id == user.id %}
+                                <button type="button" class="btn btn-link"
+                                        onclick="window.location.href='/mysite/tomyweibo/'">
+                                    <p style="font-size:15px">{{ topicweibo.user.name }}
+                                    </p>
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn btn-link"
+                                        onclick="window.location.href='/mysite/tohisweibo/?hisid={{ topicweibo.user.id }}'">
+                                    <p style="font-size:15px">{{ topicweibo.user.name }}
+                                    </p>
+                                </button>
+                            {% endif %}
+                        </center>
+                    </div>
+                    <div class="col-md-11"
+                         style=" opacity:0.8; background-color:#fff; border:1px solid black;border-radius:5px;">
+                        <p>{{ topicweibo.text|safe }}</p><br>
+                        {% if topicweibo.weiboimg != "" %}
+                            <div>
+                                <img src="{{ topicweibo.weiboimg.url }}" style="width:300px ; height:300px;">
+                            </div>
+                        {% endif %}
+                        <div class="btn-group btn-group-md">
+                            {% if topicweibo.user.id == user.id %}
+                                <button type="button" class="btn btn-danger"
+                                        onclick="window.location.href='/mysite/topicdeleteweibo/?weiboid={{ topicweibo.id }}&topicid={{ thistopic.id }}'">
+                                    删除
+                                </button>
+                            {% endif %}
+                            <button type="button" class="btn btn-success"
+                                    onclick="window.location.href='/mysite/writecomment/?weiboid={{ topicweibo.id }}'">
+                                评论{{ topicweibo.Comment_count }}
+                            </button>
+                            <button type="button" class="btn btn-default">详细</button>
+                        </div>
+                    <p style="font-size: 5px">{{ topicweibo.date }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <hr style="color: black">
+            </div>
+        </div> <!--分割线-->
+    {% endfor %}
+</div>
+</body>
+</html>

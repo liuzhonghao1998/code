@@ -1,0 +1,681 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="favicon.ico" >
+<link rel="Shortcut Icon" href="favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="css/public.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<script src="js/jquery.js"></script>
+
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>前台管理界面</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs">酒店空调管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li>前台</li>
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">receptionist <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="#">退出</a></li>
+						</ul>
+					</li>
+				
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	
+	<div class="menu_dropdown bk_2">
+		<dl id="billandRDR">
+			<dt><em class="Hui-iconfont"></em> 账单与详单<em class="Hui-iconfont menu_dropdown-arrow"></em></dt>
+			<dd>
+				<ul>
+					<li><a title="查看详单" id="createRDR">查看详单</a></li>
+				</ul>
+					
+				<ul>
+					<li><a title="查看账单" id="createInvoice">查看账单</a></li>
+				</ul>
+			</dd>
+
+		</dl>
+		<dl id="room-service">
+			<dt><i class="Hui-iconfont">&#xe62e;</i> 房间服务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a title="办理入住" id="checkin">办理入住</a></li>
+					<li><a title="退房" id="checkout">退房</a></li>
+
+				</ul>
+			</dd>
+		</dl>
+	</div>
+</aside>
+<!--/_menu 作为公共模版分离出去-->
+
+<section class="Hui-article-box" id="receptionistInit">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台  </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<img class="wColck" src="img/clock.jpg" alt=""/>
+        	<div class="wFont">
+            	<h2>Receptionist</h2>
+           	 	<p><b>请选择要执行的功能!</b></p>
+        	</div>
+		</article>
+	</div>
+</section>
+
+	<section class="Hui-article-box" id="createRDRPage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台 <span class="c-gray en">&gt;</span> 查看详单 </nav>
+	  <div class="providerAdd">
+            <form action="#">
+              <div class="">
+                    <label for="RDR_roomID">房间号：</label>
+				  	<select id="RDR_roomID">
+                        <option value ="1">房间1</option>
+                        <option value ="2">房间2</option>
+                        <option value="3">房间3</option>
+						<option value="4">房间4</option>
+                    </select>
+                    <span>*</span>
+              </div>
+                <div>
+                    <label for="RDR_starttime">起始时间：</label>
+                 
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'RDR_stoptime\')||\'%y-%M-%d\'}'})" id="RDR_starttime" class="input-text Wdate">
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="RDR_stoptime">结束时间：</label>
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'RDR_starttime\')}'})" id="RDR_stoptime" class="input-text Wdate">
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="请求" id="requstRDR"/>
+                    <input type="reset" value="重置" id="resetRDR"/>
+                </div>
+            </form>
+        </div>
+  
+</section>
+
+
+<section class="Hui-article-box" id="RDRInformationPage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台 <span class="c-gray en">&gt;</span> 查看详单 <span class="c-gray en">&gt;</span> 详单信息查看 </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+   		 <div >
+        <div class="search">
+            <input type="button" value="打印"  onclick="method5('RDRtable')" id="printRDR">
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0" id="RDRtable">
+            <tr class="firstTr">
+                <th>详单ID</th>
+                 <th>开始时间</th>
+                  <th>停止时间</th>
+                  <th>房间号</th>
+                    <th>风速</th>
+                 <th>费率</th>
+                   <th>总费用</th>
+            </tr>
+            
+        </table>
+    </div>
+			
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="createInvoicePage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台  <span class="c-gray en">&gt;</span> 查看账单</nav>
+	<div class="Hui-article" >
+		<article class="cl pd-20">
+			 <div class="providerAdd">
+            <form action="#">
+                <div class="">
+					<label for="Invoice_roomID">房间号：</label>
+				  	<select id="Invoice_roomID">
+                        <option value="1">房间1</option>
+                        <option value="2">房间2</option>
+                        <option value="3">房间3</option>
+						<option value="4">房间4</option>
+                    </select>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="Invoice_starttime">起始时间：</label>
+                   
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'Invoice_stoptime\')||\'%y-%M-%d\'}'})" id="Invoice_starttime" class="input-text Wdate">
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="Invoice_stoptime">结束时间：</label>
+					<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'Invoice_starttime\')}'})" id="Invoice_stoptime" class="input-text Wdate">
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="请求" id="requstInvoice"/>
+                    <input type="reset" value="重置" id="resetInvoice"/>
+                </div>
+            </form>
+        </div>
+			
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="InvoiceInformationPage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台  <span class="c-gray en">&gt;</span> 查看账单 <span class="c-gray en">&gt;</span> 账单信息查看</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			 <div class="search">
+            <input type="button" value="打印"  onclick="method5('Billtable')"  id="printBill">
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0" id="Billtable">
+            <tr class="firstTr">
+                <th>帐单ID</th>
+                <th>开始时间</th>
+                 <th>停止时间</th>
+                 <th>房间号</th>
+                 <th>用户ID</th>
+                 <th>总费用</th>
+                 <th>运行时间</th>
+                  <th>空调调度次数</th>
+                   <th>详单数量</th>
+                   <th>空调启动次数</th>
+                   <th>温度调节次数</th>
+                   <th>风速调节次数</th>
+              
+            </tr>
+            <tr>
+                <td id="InvoiceInfo_ID"></td>
+                <td id="InvoiceInfo_starttime"></td>
+                <td id="InvoiceInfo_stoptime"></td>
+                <td id="InvoiceInfo_roomID"></td>
+                <td id="InvoiceInfo_userID"></td>
+                <td id="InvoiceInfo_roomTotalFee"></td>
+                <td id="InvoiceInfo_runningTime"></td>
+                <td id="InvoiceInfo_scheduleCounter"></td>
+                <td id="InvoiceInfo_detailedRecordCounter"></td>
+                <td id="InvoiceInfo_powerOnCounter"></td>
+                <td id="InvoiceInfo_changeTempCounter"></td>
+                <td id="InvoiceInfo_changeFanCounter"></td>
+            </tr>
+        </table>
+			
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="checkinPage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台<span class="c-gray en">&gt;</span> 办理入住  </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<form class="form form-horizontal">
+					<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>身份证号：</label>
+					<div class="formControls col-xs-5 col-sm-6">
+					<input type="text" class="input-text" value="" name="identifier" id="identifier">
+					</div>
+					</div>
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+					<input class="btn btn-primary radius" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="saveIdentifier">
+				</div>
+			</div>
+			</form>
+			
+		</article>
+	</div>
+</section>
+
+<section class="Hui-article-box" id="showCustomerAccount">
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台 <span class="c-gray en">&gt;</span> 办理入住  <span class="c-gray en">&gt;</span> 顾客账户信息</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			 <table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr>
+                <th>用户名</th>
+                <td id="checkin_userName"></td>
+            </tr>
+            <tr>
+                <th>密码</th>
+                <td id="checkin_userPassword"></td>
+            </tr>
+            <tr>
+                <th>房间号</th>
+                <td id="checkin_roomID"></td>
+            </tr>
+        </table>
+			
+		</article>
+	</div>
+</section>	
+
+<section class="Hui-article-box" id="checkOutPage">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 前台  
+	<span class="c-gray en">&gt;</span> 退房</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<form class="form form-horizontal">
+					<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>房间号：</label>
+					<div class="formControls col-xs-5 col-sm-6">
+					<input type="text" class="input-text" value="" name="checkOut_RoomID" id="checkOut_RoomID">
+					</div>
+					</div>
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+					<input class="btn btn-primary radius" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="saveCheckOutRoomID">
+				</div>
+			</div>
+			</form>
+		</article>
+	</div>
+</section>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="h-ui.admin/js/H-ui.admin.page.js"></script> 
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+	
+<script type="text/javascript">
+	
+//The function of Receptionist
+	$("#receptionistInit").show();
+	$("#createRDRPage").hide();
+	$("#RDRInformationPage").hide();
+	$("#createInvoicePage").hide();
+	$("#InvoiceInformationPage").hide();
+	$("#checkinPage").hide();
+	$("#showCustomerAccount").hide();
+	$("#checkOutPage").hide();
+ //请求展示详单
+    $('#createRDR').click(function () {
+	$("#receptionistInit").hide();
+	$("#createRDRPage").show();
+	$("#RDRInformationPage").hide();
+	$("#createInvoicePage").hide();
+	$("#InvoiceInformationPage").hide();
+	$("#checkinPage").hide();
+	$("#showCustomerAccount").hide();
+	$("#checkOutPage").hide();
+
+    });
+    $('#requstRDR').click(function () {
+        var roomID = $("#RDR_roomID").val();
+        var starttime = $('#RDR_starttime').val();
+		var tmpt=starttime.split(' ');
+		starttime=tmpt[0]+"T"+tmpt[1];
+        var stoptime = $('#RDR_stoptime').val();
+		tmpt=stoptime.split(' ');
+		stoptime=tmpt[0]+"T"+tmpt[1];
+        $.ajax({
+            url: "http://localhost:8080/receptionist/createrdr",
+            type: "GET",
+            global: "false",
+            dataType: 'json',
+            data: {'roomid': roomID, 'starttime':starttime, 'stoptime':stoptime},
+            success: function (data) {
+                $('#createRDRPage').hide();
+                $('#RDRInformationPage').show();
+				
+                var tab = document.getElementById("RDRtable");
+                $("#RDRtable").empty("");
+                var tr0 = document.createElement("tr");
+                 var td01 = document.createElement("td");
+                 tr0 = document.createElement("tr");
+                 td01 = document.createElement("td");
+                 td01.innerHTML="房间"+$("#RDR_roomID").val()+"的详单";
+                 
+                  tr0.appendChild(td01);
+                  tab.appendChild(tr0);
+
+                td01.innerHTML = "详单ID";
+                tr0.appendChild(td01);
+
+                         var td02 = document.createElement("td");
+                         td02.innerHTML = "开始时间";
+                         tr0.appendChild(td02);
+
+                         var td03 = document.createElement("td");
+                         td03.innerHTML = "停止时间";
+                         tr0.appendChild(td03);
+
+                         var td04 = document.createElement("td");
+                         td04.innerHTML = "房间号";
+                         tr0.appendChild(td04);
+
+                         var td05 = document.createElement("td");
+                         td05.innerHTML = '风速';
+                         tr0.appendChild(td05);
+
+                         var td06 = document.createElement("td");
+                         td06.innerHTML = '费率';
+                         tr0.appendChild(td06);
+
+                         var td07 = document.createElement("td");
+                         td07.innerHTML = "总费用";
+                         tr0.appendChild(td07);
+
+                         tab.appendChild(tr0);
+                for(var i=0;i<data.RDList.length;i++)
+                    {
+                       
+                         var tr = document.createElement("tr");
+                         var td1 = document.createElement("td");
+                         td1.innerHTML = data.RDList[i]['servicedetailid'];
+                         tr.appendChild(td1);
+
+                         var td2 = document.createElement("td");
+                         td2.innerHTML = timeFormatTrans(data.RDList[i]['starttime']);
+                         tr.appendChild(td2);
+
+                         var td3 = document.createElement("td");
+                         td3.innerHTML =timeFormatTrans(data.RDList[i]['stoptime']) ;
+                         tr.appendChild(td3);
+
+                         var td4 = document.createElement("td");
+                         td4.innerHTML = data.RDList[i]['roomid'];
+                         tr.appendChild(td4);
+
+                         var td5 = document.createElement("td");
+                         td5.innerHTML = data.RDList[i]['funspeed'];
+                         tr.appendChild(td5);
+
+                         var td6 = document.createElement("td");
+                         td6.innerHTML = data.RDList[i]['feerate'];
+                         tr.appendChild(td6);
+
+                         var td7 = document.createElement("td");
+                         td7.innerHTML = data.RDList[i]['fee'];
+                         tr.appendChild(td7);
+
+                         tab.appendChild(tr)
+                    
+                    }
+             
+                /*
+                $('#RDRInfo_ID').text(data['servicedetailid']);
+                $('#RDRInfo_starttime').text(data['starttime']);
+                $('#RDRInfo_stoptime').text(data['stoptime']);
+                $('#RDRInfo_roomID').text(data['roomid']);
+                $('#RDRInfo_roomSpeed').text(data['fanspeed']);
+                $('#RDRInfo_roomFeeRate').text(data['feerate']);
+                $('#RDRInfo_roomTotalFee').text(data['fee']);
+                 */
+
+            },
+            error: function () {
+                alert("请求失败！");
+            }
+        });
+    });
+	
+    //请求账单
+    $('#createInvoice').click(function () {
+	$("#receptionistInit").hide();
+	$("#createRDRPage").hide();
+	$("#RDRInformationPage").hide();
+	$("#createInvoicePage").show();
+	$("#InvoiceInformationPage").hide();
+	$("#checkinPage").hide();
+	$("#showCustomerAccount").hide();
+	$("#checkOutPage").hide();
+
+    });
+    //请求展示账单
+    $('#requstInvoice').click(function () {
+        var roomID = $("#Invoice_roomID").val();
+        var starttime = $('#Invoice_starttime').val();
+		var tmpt=starttime.split(' ');
+		starttime=tmpt[0]+"T"+tmpt[1];
+        var stoptime = $('#Invoice_stoptime').val();
+		tmpt=stoptime.split(' ');
+		stoptime=tmpt[0]+"T"+tmpt[1];
+        $.ajax({
+            url: "http://localhost:8080/receptionist/createinvoice",
+            type: "GET",
+            global: "false",
+            dataType: 'json',
+            data: {'roomid': roomID, 'starttime':starttime, 'stoptime':stoptime},
+            success: function (data) {
+				 $('#createInvoicePage').hide();
+                $('#InvoiceInformationPage').show();
+				
+                $('#InvoiceInfo_ID').text(data['billid']);
+                $('#InvoiceInfo_starttime').text(timeFormatTrans(data['starttime']));
+                $('#InvoiceInfo_stoptime').text(timeFormatTrans(data['stoptime']));
+                $('#InvoiceInfo_roomID').text(data['roomid']);
+                $('#InvoiceInfo_userID').text(data['userid']);
+                $('#InvoiceInfo_roomTotalFee').text(data['totalfee']);
+                $('#InvoiceInfo_runningTime').text(data['runningtime']);
+                $('#InvoiceInfo_scheduleCounter').text(data['schedulecounter']);
+                $('#InvoiceInfo_detailedRecordCounter').text(data['detailedrecordcounter']);
+                $('#InvoiceInfo_powerOnCounter').text(data['poweroncounter']);
+                $('#InvoiceInfo_changeTempCounter').text(data['changetempcounter']);
+                $('#InvoiceInfo_changeFanCounter').text(data['changefuncounter']);
+            },
+            error: function () {
+                alert("请求失败！");
+            }
+        });
+    });
+
+ $('#checkin').click(function () {
+	 $("#receptionistInit").hide();
+	$("#createRDRPage").hide();
+	$("#RDRInformationPage").hide();
+	$("#createInvoicePage").hide();
+	$("#InvoiceInformationPage").hide();
+	$("#checkinPage").show();
+	$("#showCustomerAccount").hide();
+	$("#checkOutPage").hide();
+    });
+
+$('#saveIdentifier').click(function () {
+        var identifier = $('#identifier').val();
+        if(identifier == ""){
+            alert("身份证号不能为空！");
+        }
+        else {
+            $.ajax({
+                url: "http://localhost:8080/receptionist/adduser",
+                type: "POST",
+                global: "false",
+                dataType: 'json',
+                data: {'idnumber': identifier},
+                success: function (data) {
+                    if(data['userid'] == -1){
+                        $('#checkInPage').hide();
+						alert("房间已满");
+                        $('#receptionistInit').show();
+                    }
+                    else {
+                        $('#checkInPage').hide();
+                        $('#showCustomerAccount').show();
+                        $('#checkin_userName').text(data['username']);
+                        $('#checkin_userPassword').text(data['password']);
+                        $('#checkin_roomID').text(data['roomid']);
+                    }
+                },
+                error: function () {
+                    $('#checkInPage').hide();
+                     $('#receptionistInit').show();
+                    alert("通信失败");
+                }
+            });
+        }
+
+    });
+ $('#checkout').click(function () {
+	 $("#receptionistInit").hide();
+	$("#createRDRPage").hide();
+	$("#RDRInformationPage").hide();
+	$("#createInvoicePage").hide();
+	$("#InvoiceInformationPage").hide();
+	$("#checkinPage").hide();
+	$("#showCustomerAccount").hide();
+	$("#checkOutPage").show();
+    });
+
+    //请求房间号
+    $('#saveCheckOutRoomID').click(function () {
+        var roomID = $("#checkOut_RoomID").val();
+        roomID = parseInt(roomID);
+
+        $.ajax({
+            url: "http://localhost:8080/receptionist/checkout",
+            type: "POST",
+            global: "false",
+            dataType: 'json',
+            data: {'roomid': roomID},
+            success: function (data) {
+                if(data['statue']=="Error"){
+                     alert("退房失败！");
+                 }
+                 else
+                 {
+                       alert("成功退房");
+                 }
+                $('#checkOutPage').hide();
+                $('#receptionistInit').show();
+            },
+            error: function () {
+                $('#checkOutPage').hide();
+                $('#receptionistInit').show();
+                alert("退房失败");
+            }
+        });
+    });
+
+function timeFormatTrans(str){
+    var words = str.split("T");
+    var words1 = words[1].split(".");
+    return words[0]+" "+words1[0];
+}
+
+var idTmr;
+
+function getExplorer() {
+    var explorer = window.navigator.userAgent;
+    //ie
+    if (explorer.indexOf("MSIE") >= 0) {
+        return 'ie';
+    }
+    //firefox
+    else if (explorer.indexOf("Firefox") >= 0) {
+        return 'Firefox';
+    }
+    //Chrome
+    else if (explorer.indexOf("Chrome") >= 0) {
+        return 'Chrome';
+    }
+    //Opera
+    else if (explorer.indexOf("Opera") >= 0) {
+        return 'Opera';
+    }
+    //Safari
+    else if (explorer.indexOf("Safari") >= 0) {
+        return 'Safari';
+    }
+}
+
+function method5(tableid) {
+    if (getExplorer() == 'ie') {
+        var curTbl = document.getElementById(tableid);
+        var oXL = new ActiveXObject("Excel.Application");
+        var oWB = oXL.Workbooks.Add();
+        var xlsheet = oWB.Worksheets(1);
+        var sel = document.body.createTextRange();
+        sel.moveToElementText(curTbl);
+        sel.select();
+        sel.execCommand("Copy");
+        xlsheet.Paste();
+        oXL.Visible = true;
+
+        try {
+            var fname = oXL.Application.GetSaveAsFilename("Excel.xls",
+                "Excel Spreadsheets (*.xls), *.xls");
+            print("Nested catch caught " + e);
+        } finally {
+            oWB.SaveAs(fname);
+            oWB.Close(savechanges = false);
+            oXL.Quit();
+            oXL = null;
+            idTmr = window.setInterval("Cleanup();", 1);
+        }
+
+    } else {
+        tableToExcel(tableid);
+    }
+}
+
+function Cleanup() {
+    window.clearInterval(idTmr);
+    CollectGarbage();
+}
+
+var tableToExcel = (function () {
+    var uri = 'data:application/vnd.ms-excel;base64,',
+        template = '<html><head><meta charset="UTF-8"></head><body><table  border="1">{table}</table></body></html>',
+        base64 = function (
+            s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        }, format = function (s, c) {
+            return s.replace(/{(\w+)}/g, function (m, p) {
+                return c[p];
+            })
+        };
+    return function (table, name) {
+        if (!table.nodeType)
+            table = document.getElementById(table);
+        var ctx = {
+            worksheet: name || 'Worksheet',
+            table: table.innerHTML
+        };
+        window.location.href = uri + base64(format(template, ctx))
+    }
+})();
+
+
+	
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

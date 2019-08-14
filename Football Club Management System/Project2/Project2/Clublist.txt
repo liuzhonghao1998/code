@@ -1,0 +1,6 @@
+A
+GHUM:0
+SHUM:5
+B
+GHUM:0
+SHUM:5

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索界面</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-image: url('/static/forbidden_city3.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-11"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-warning btn-sm" onclick="window.location.href='/mysite/tolist/'">返回主页</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <h2>微博：</h2>
+            {% for contactsw in contactswlist %}
+                <div class="row" style=" opacity:0.8; background-color:#fff;">
+                    <div>
+                        <div class="col-md-2" style=" opacity:1; background-color:#fff;">
+                            <center>
+                                {% if contactsw.user.touxiangimg == "" %}
+                                    <img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=5fb248ee858ba61edfbbc0297104bb32/ac345982b2b7d0a2e2734ab9ccef76094b369a58.jpg"
+                                         height="40" width="40">
+                                {% else %}
+                                    <img src="{{ contactsw.user.touxiangimg.url }}" height="40" width="40"
+                                         style="border-radius:200px;">
+                                {% endif %}
+                                <h4>   {% if contactsw.user.id == user.id %}
+                                    <button type="button" class="btn btn-link"
+                                            onclick="window.location.href='/mysite/tomyweibo/'">
+                                        <p style="font-size:15px">{{ contactsw.user.name }}
+                                        </p>
+                                    </button>
+                                {% else %}
+                                    <button type="button" class="btn btn-link"
+                                            onclick="window.location.href='/mysite/tohisweibo/?hisid={{ contactsw.user.id }}'">
+                                        <p style="font-size:15px">{{ contactsw.user.name }}
+                                        </p>
+                                    </button>
+                                {% endif %}
+                                </h4>
+                            </center>
+                        </div>
+                        <div class="col-md-10" style=" opacity:0.8; background-color:#fff;">
+                            <p>{{ contactsw.text|safe }}</p><br>
+                            {% if contactsw.weiboimg != "" %}
+                                <div>
+                                    <img src="{{ contactsw.weiboimg.url }}" style="width:300px ; height:300px;">
+                                </div>
+                            {% endif %}
+                            <div class="btn-group btn-group-md">
+                                {% if contactsw.user.id == user.id %}
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="window.location.href='/mysite/searchdeleteweibo/?weiboid={{ contactsw.id }}&info={{ info }}'">
+                                        删除
+                                    </button>
+                                {% endif %}
+                                <button type="button" class="btn btn-default">详细</button>
+                                <button type="button" class="btn btn-success"
+                                        onclick="window.location.href='/mysite/writecomment/?weiboid={{ contactsw.id }}'">
+                                    评论{{ contactsw.Comment_count }}</button>
+                            </div>
+                            <p style="font-size: 5px">{{ contactsw.date }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="color: black">
+                    </div>
+                </div> <!--分割线-->
+            {% endfor %}
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5">
+            <h2>用户：</h2>
+            {% for contactsu in contactsulist %}
+                <div class="row">
+                    <div>
+
+                        <div class="col-md-12" style=" opacity:0.8; background-color:#fff;">
+                            <div class="col-md-2">
+                                <center>
+                                    {% if contactsu.touxiangimg == "" %}
+                                        <img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=5fb248ee858ba61edfbbc0297104bb32/ac345982b2b7d0a2e2734ab9ccef76094b369a58.jpg"
+                                             height="40" width="40">
+                                    {% else %}
+                                        <img src="{{ contactsu.touxiangimg.url }}" height="40" width="40"
+                                             style="border-radius:200px;">
+                                    {% endif %}
+                                    <h4>{{ contactsu.name }}</h4>
+                                </center>
+                            </div>
+                            <div class="col-md-10" style=" opacity:0.8; background-color:#fff;">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <center>
+                                            <h5>微博数量</h5>
+                                            <p>{{ contactsu.weibonum }}</p>
+                                        </center>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <center>
+                                            <h5>粉丝数</h5>
+                                            <p>{{ contactsu.fannum }}</p>
+                                        </center>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <center>
+                                            <h5>关注数</h5>
+                                            <p>{{ contactsu.concernnum }}</p>
+                                        </center>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <center>
+                                            {% if contactsu.id != user.id %}
+                                                <button type="button" class="btn btn-default btn-lg"
+                                                        onclick="window.location.href='/mysite/tohisweibo/?hisid={{ contactsu.id }}'">
+                                                    <span class="glyphicon glyphicon-user"></span> User
+                                                </button>
+                                            {% else %}
+                                                <button type="button" class="btn btn-default btn-lg"
+                                                        onclick="window.location.href='/mysite/tomyweibo/'">
+                                                    <span class="glyphicon glyphicon-user"></span> User
+                                                </button>
+                                            {% endif %}
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

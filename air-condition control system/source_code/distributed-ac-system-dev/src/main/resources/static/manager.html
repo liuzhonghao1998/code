@@ -1,0 +1,397 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="favicon.ico" >
+<link rel="Shortcut Icon" href="favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+
+<link rel="stylesheet" type="text/css" href="h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="css/public.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<script src="js/jquery.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>酒店经理管理界面</title>
+
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">酒店空调管理系统</a>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li>酒店经理</li>
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">manager <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="#">退出</a></li>
+						</ul>
+					</li>
+		
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去--> 
+
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	
+	<div class="menu_dropdown bk_2">
+		<dl id="menu-article">
+			<dt><i class="Hui-iconfont">&#xe616;</i> 经理管理项目<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a title="报表查询" id="queryReport">报表查询</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-return"  href="javascript:void(0)" onclick="location.reload()">
+			<dt>返回</dt>
+		</dl>
+		
+	</div>
+</aside>
+<!--/_menu 作为公共模版分离出去-->
+
+<section class="Hui-article-box" >
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		酒店经理
+		<span class="c-gray en">&gt;</span>
+		报表查询
+		 </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<!--请求报表-->
+		<div class="providerAdd" id="createReportPage">
+			<form action="#">
+                <div class="">
+                    <label for="Report_roomID1">房间号：</label>
+                    <input type="text" name="Report_roomID1" id="Report_roomID1" />
+                    <span>*</span>
+                </div>
+                <div>
+                     <label for="Report_type">报告类型：</label>
+                     <select id="Report_type">
+                        <option value ="0">日报</option>
+                        <option value ="1">月报</option>
+                        <option value="2">年报</option>
+                    </select>
+                </div>
+                <div id="date_div">
+                    <label for="Report_date">日期：</label>
+					<input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'Report_date\')||\'%y-%M-%d\'}'})" id="Report_date" class="input-text Wdate" >
+                    <span>*</span>
+                </div>
+               
+                <div class="providerAddBtn">
+                    <input type="button" value="请求" id="requestReport"/>
+                    <input type="reset" value="重置" id="resetReport"/>
+                </div>
+            </form>
+        </div>
+			    <!--报表信息-->
+    <div class="right" id="ReportInformationPage">
+        <div class="search">
+            <input type="button" value="打印" onclick="method5('reporttables')"  id="printReport">
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0" id="reporttables">
+            <tr class="firstTr">
+                <th>房间号</th>
+                <th>总费用</th>
+                <th>运行时间</th>
+                <th>空调调度次数</th>
+                <th>详单数量</th>
+                <th>空调启动次数</th>
+                <th>温度调节次数</th>
+                <th>风速调节次数</th>
+            </tr>
+        
+        </table>
+    </div>
+		</article>
+	</div>
+</section>
+
+	
+<section class="Hui-article-box" id="managerInit">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		酒店经理
+	</nav>
+	    <div class="right">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Manager</h2>
+            <p><b>请选择要执行的功能!</b></p>
+        </div>
+    </div>
+	</section>
+
+	
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="h-ui.admin/js/H-ui.admin.page.js"></script> 
+<!--/_footer /作为公共模版分离出去--> 
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript">
+//The function of manager
+$(function () {
+    $('#createReportPage').hide();
+    $('#ReportInformationPage').hide();
+	$('#menu-return').hide();
+
+    $('#queryReport').click(function () {
+        $('#managerInit').hide();
+        $('#ReportInformationPage').hide();
+        $('#createReportPage').show();
+    });
+
+    $('#requestReport').click(function () {
+        var roomid1 = parseInt($('#Report_roomID1').val());
+		var dates=$("#Report_date").val().split("-");
+		var Report_year=dates[0];
+		var Report_month=dates[1];
+		var Report_day=dates[2];
+        var reportType = parseInt($('#Report_type').val());
+        var reportYear = parseInt(Report_year);
+        var reportMonth = parseInt(Report_month);
+        var reportDay = parseInt(Report_day);
+
+        $.ajax({
+            url: "http://localhost:8080/manager/queryreport",
+            type: "GET",
+            global: "false",
+            dataType: "json",
+            data: {
+                "list_Roomid": roomid1,
+                "type_Report": reportType,
+                "year":reportYear,
+                "month": reportMonth,
+                "day": reportDay
+            },
+            success: function (data) {
+                $('#createReportPage').hide();
+                $('#ReportInformationPage').show();
+				$('#menu-return').show();
+                var tab=document.getElementById("reporttables");
+                $("#reporttables").empty("");
+                var tr=document.createElement("tr");
+                var td=document.createElement("th");
+                //tr.setAttribute("align","center");
+                td.setAttribute("colspan",8);
+                
+                td.innerHTML=$("#Report_date").val()+"的";
+                if($('#Report_type').val()=="0"){
+                    td.innerHTML+="日报";
+                }
+                else if($('#Report_type').val()=="1"){
+                    td.innerHTML+="月报";
+                }
+                else td.innerHTML+="年报";
+                tr.appendChild(td);
+                tab.appendChild(tr);
+
+                tr=document.createElement("tr");
+                 
+                 td=document.createElement("td");
+                 td.innerHTML = "房间号";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "总费用";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "运行时间";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "空调调度次数";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "详单数量";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "空调启动次数";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "温度调节次数";
+                 tr.appendChild(td);
+
+                 td=document.createElement("td");
+                 td.innerHTML = "风速调节次数";
+                 tr.appendChild(td);
+                 tab.appendChild(tr);
+                 for(var i=0;i<data.length;i++){
+                    tr=document.createElement("tr");
+                    
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['roomid']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['totalfee']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['runningtime']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['scheduleCounter']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['detailedRecordCounter']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['powerOnCounter']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['changetempcounter']
+                    tr.appendChild(td);
+
+                    td=document.createElement("td");
+                    td.innerHTML = data[i]['changefuncounter']
+                    tr.appendChild(td);
+                    tab.appendChild(tr);
+                 }
+                /*
+                $('#createReportPage').hide();
+                $('#ReportInformationPage').show();
+                $('#ReportInfo_roomID').text(data[0]['roomid']);
+                $('#ReportInfo_roomTotalFee').text(data[0]['totalfee']);
+                $('#ReportInfo_runningTime').text(data[0]['runningtime']);
+                $('#ReportInfo_scheduleCounter').text(data[0]['scheduleCounter']);
+                $('#ReportInfo_detailedRecordCounter').text(data[0]['detailedRecordCounter']);
+                $('#ReportInfo_powerOnCounter').text(data[0]['powerOnCounter']);
+                $('#ReportInfo_changeTempCounter').text(data[0]['changetempcounter']);
+                $('#ReportInfo_changeFanCounter').text(data[0]['changefuncounter']);
+                */
+
+                alert("请求成功");
+            },
+            error: function () {
+                alert("请求失败");
+            }
+        });
+    });
+});
+
+var idTmr;
+
+function getExplorer() {
+    var explorer = window.navigator.userAgent;
+    //ie
+    if (explorer.indexOf("MSIE") >= 0) {
+        return 'ie';
+    }
+    //firefox
+    else if (explorer.indexOf("Firefox") >= 0) {
+        return 'Firefox';
+    }
+    //Chrome
+    else if (explorer.indexOf("Chrome") >= 0) {
+        return 'Chrome';
+    }
+    //Opera
+    else if (explorer.indexOf("Opera") >= 0) {
+        return 'Opera';
+    }
+    //Safari
+    else if (explorer.indexOf("Safari") >= 0) {
+        return 'Safari';
+    }
+}
+
+function method5(tableid) {
+    if (getExplorer() == 'ie') {
+        var curTbl = document.getElementById(tableid);
+        var oXL = new ActiveXObject("Excel.Application");
+        var oWB = oXL.Workbooks.Add();
+        var xlsheet = oWB.Worksheets(1);
+        var sel = document.body.createTextRange();
+        sel.moveToElementText(curTbl);
+        sel.select();
+        sel.execCommand("Copy");
+        xlsheet.Paste();
+        oXL.Visible = true;
+
+        try {
+            var fname = oXL.Application.GetSaveAsFilename("Excel.xls",
+                "Excel Spreadsheets (*.xls), *.xls");
+            print("Nested catch caught " + e);
+        } finally {
+            oWB.SaveAs(fname);
+            oWB.Close(savechanges = false);
+            oXL.Quit();
+            oXL = null;
+            idTmr = window.setInterval("Cleanup();", 1);
+        }
+
+    } else {
+        tableToExcel(tableid);
+    }
+}
+
+function Cleanup() {
+    window.clearInterval(idTmr);
+    CollectGarbage();
+}
+
+var tableToExcel = (function () {
+    var uri = 'data:application/vnd.ms-excel;base64,',
+        template = '<html><head><meta charset="UTF-8"></head><body><table  border="1">{table}</table></body></html>',
+        base64 = function (
+            s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        }, format = function (s, c) {
+            return s.replace(/{(\w+)}/g, function (m, p) {
+                return c[p];
+            })
+        };
+    return function (table, name) {
+        if (!table.nodeType)
+            table = document.getElementById(table);
+        var ctx = {
+            worksheet: name || 'Worksheet',
+            table: table.innerHTML
+        };
+        window.location.href = uri + base64(format(template, ctx))
+    }
+})();
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

@@ -1,0 +1,27 @@
+name:Bob
+age:18
+strength:
+has power
+money:6
+Transferfee:3
+kick:1
+experience:3
+club:A
+name:Alian
+age:19
+strength:
+good
+money:7
+Transferfee:2
+kick:2
+experience:1
+club:A
+name:White
+age:20
+strength:
+great
+money:9
+Transferfee:10
+kick:13
+experience:7
+club:A

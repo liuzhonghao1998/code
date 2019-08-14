@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>详细微博</title>
+</head>
+<body style="background-image: url('/static/forbidden_city6.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+<div class="container">
+    <div class="row">
+        <div class="col-md-2" style=" opacity:1; background-color:#fff; border:1px solid black;border-radius:5px;">
+            <center>
+                {% if thisweibo.user.touxiangimg == "" %}
+                    <img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=5fb248ee858ba61edfbbc0297104bb32/ac345982b2b7d0a2e2734ab9ccef76094b369a58.jpg"
+                         height="40" width="40">
+                {% else %}
+                    <img src="{{ thisweibo.user.touxiangimg.url }}" height="40" width="40"
+                         style="border-radius:200px;">
+                {% endif %}
+                <button type="button" class="btn btn-link"><h4>{{ thisweibo.user.name }}</h4></button>
+            </center>
+        </div>
+        <div class="col-md-10" style=" opacity:0.8; background-color:#fff;">
+            <p>
+                {{ thisweibo.text|safe }}
+            </p>
+            {% if thisweibo.weiboimg != "" %}
+                <div>
+                    <img src="{{ thisweibo.weiboimg.url }}" style="width:300px ; height:300px;">
+                </div>
+            {% endif %}
+            <p style="font-size: 5px">2019年1月8日18：59</p>
+        </div>
+    </div>
+    <hr>
+    <hr>
+    {% for todo in comments %}
+        {% if todo.p_comment == "" %}
+            <div class="{{ todo.id }}">
+                <div class="row">
+                    <div class="col-md-12"
+                         style=" opacity:0.8; background-color:#fff; border:1px solid black;border-radius:10px;">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                {% if todo.user.id == user.id %}
+                                    <button type="button" class="btn btn-link"
+                                            onclick="window.location.href='/mysite/tomyweibo/'">
+                                        <p style="font-size:15px">{{ todo.user.name }}
+                                        </p>
+                                    </button>
+                                {% else %}
+                                    <button type="button" class="btn btn-link"
+                                            onclick="window.location.href='/mysite/tohisweibo/?hisid={{ todo.user.id }}'">
+                                        <p style="font-size:15px">{{ todo.user.name }}
+                                        </p>
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-9">
+                                <p style="font-size:15px">
+                                    {{ todo.comment|safe }}
+                                </p>
+                                <p style="font-size: 5px">2019年1月8日18：59</p>
+                            </div>
+                            <div class="col-sm-2">
+                                {% if todo.user.id == user.id %}
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="window.location.href='/mysite/deletecomment/?commentid={{ todo.id }}'">
+                                        删除
+                                    </button>
+                                {% endif %}
+                                <button type="button" class="reply btn btn-prime btn-sm" id="{{ todo.id }}">回复</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--评论一-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="color: black">
+                    </div>
+                </div> <!--分割线-->
+            </div>
+        {% else %}
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $(".{{ todo.p_comment.id }}").after("    <div class=\"{{ todo.id }}\">\n" +
+                        "        <div class=\"row\">\n" +
+                        "            <div class=\"col-sm-12\"\n" +
+                        "                 style=\" opacity:0.8; background-color:#fff; border:1px solid black;border-radius:5px;\">\n" +
+                        "                <div class=\"row\">\n" +
+                        "                    <div class=\"col-sm-1\">\n" +
+                        "                        {% if todo.user.id == user.id %}\n"+
+                            "                        <button type=\"button\" class=\"btn btn-link\"\n"+
+                            "                                onclick=\"window.location.href='/mysite/tomyweibo/'\">\n"+
+                            "                            <p style=\"font-size:15px\">{{ todo.user.name }}\n"+
+                            "                            </p>\n"+
+                            "                        </button>\n"+
+                            "                        {% else %}\n"+
+                            "                        <button type=\"button\" class=\"btn btn-link\"\n"+
+                            "                                onclick=\"window.location.href='/mysite/tohisweibo/?hisid={{ todo.user.id }}'\">\n"
+                            +
+                            "                            <p style=\"font-size:15px\">{{ todo.user.name }}\n"+
+                            "                            </p>\n"+
+                            "                        </button>\n"+
+                            "                        {% endif %}\n" +
+                        "                    </div>\n" +
+                        "                    <div class=\"col-sm-9\">\n" +
+                        "                        <h4>回复 {% if todo.p_comment.user.id == user.id %}\n"+
+                            "                            <button type=\"button\" class=\"btn btn-link\"\n"+
+                            "                                    onclick=\"window.location.href='/mysite/tomyweibo/'\">\n"
+                            +
+                            "                                <p style=\"font-size:15px\">{{ todo.p_comment.user.name }}\n"
+                            +
+                            "                                </p>\n"+
+                            "                            </button>\n"+
+                            "                            {% else %}\n"+
+                            "                            <button type=\"button\" class=\"btn btn-link\"\n"+
+                            "                                    onclick=\"window.location.href='/mysite/tohisweibo/?hisid={{ todo.p_comment.user.id }}'\">\n"
+                            +
+                            "                                <p style=\"font-size:15px\">{{ todo.p_comment.user.name }}\n"
+                            +
+                            "                                </p>\n"+
+                            "                            </button>\n"+
+                            "                            {% endif %}\n" +
+                        "                        </h4>\n" +
+                        "                        <p>{{ todo.comment|safe}}</p>\n" +
+                        "                    </div>\n" +
+                        "                    <div class=\"col-sm-2\">\n" +
+                        "                        {% if todo.user.id == user.id %}\n"+
+                            "                        <button type=\"button\" class=\"btn btn-danger btn-sm\"\n"+
+                            "                                onclick=\"window.location.href='/mysite/deletecomment/?commentid={{ todo.id }}'\">删除\n"
+                            +
+                            "                        </button>\n"+
+                            "                        {% endif %}\n" +
+                        "                        <button type=\"button\" class=\"reply btn btn-prime btn-sm\" id=\"{{ todo.id }}\">回复</button>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </div>  <!--回复一-->\n" +
+                        "        <div class=\"row\">\n" +
+                        "            <div class=\"col-sm-12\">\n" +
+                        "                <hr style=\"color: black\">\n" +
+                        "            </div>\n" +
+                        "        </div> <!--分割线-->\n" +
+                        "    </div>")
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12">
+            <form name="myForm" action="/mysite/writecomment/" method="post" id="replyto">
+                {% csrf_token %}
+                <input type="hidden" name="weiboid" value="{{ thisweibo.id }}" class="before">
+                <input type='hidden' name='commentid' value='' id='replycomment'>
+                <div class="form-group">
+                    <label for="comment" id="isignal" style="color:white">评论:</label>
+                    <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
+                </div>
+                <button type="submit">提交</button>
+            </form>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8"></div>
+                <div class="col-md-2">
+                    <button class="btn btn-success" onclick="window.location.href='/mysite/tolist/'">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".reply").click(function () {
+            $("#isignal").text("回复：");
+            $("#comment").attr("name", "replytext");
+            $("#replyto").attr("action", "/mysite/writereply/");
+            $("#replycomment").attr("value", $(this).attr("id"));
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的微博</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="text-align: center;background-image: url('/static/forbidden_city7.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-11"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-warning btn-sm" onclick="window.location.href='/mysite/tolist/'">返回主页</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style=" opacity:0.8; background-color:#fff;">
+            <center>
+                {% if myup.touxiangimg == "" %}
+                    <img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=5fb248ee858ba61edfbbc0297104bb32/ac345982b2b7d0a2e2734ab9ccef76094b369a58.jpg"
+                         height="40" width="40">
+                {% else %}
+                    <img src="{{ myup.touxiangimg.url }}" height="40" width="40"
+                         style="border-radius:200px;">
+                {% endif %}
+                <h3>{{ myup.name }}</h3>
+            </center>
+            <div class="row">
+                <div class="col-md-4" style="background-color: #D8BFD8">
+                    <h5 class="text-center">
+                        微博数
+                    </h5>
+                    <p style="font-size:20px" class="text-center">{{ myup.weibonum }}</p>
+                </div>
+                <div class="col-md-4" style="background-color: #D8BFD8">
+                    <h5 class="text-center">
+                        粉丝
+                    </h5>
+                    <p style="font-size:20px" class="text-center">{{ myup.fannum }}</p>
+                </div>
+                <div class="col-md-4" style="background-color: #D8BFD8">
+                    <h5 class="text-center">
+                        关注
+                    </h5>
+                    <p style="font-size:20px" class="text-center">{{ myup.concernnum }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for myweibo in myweibolist %}
+        <div class="row">
+            <div>
+                <div class="col-md-12" style=" opacity:0.8; background-color:#fff;">
+                    <p style="position: fixed">{{ myweibo.text|safe }}</p><br>
+                    {% if myweibo.weiboimg != "" %}
+                        <div>
+                            <img src="{{ myweibo.weiboimg.url }}" style="width:300px ; height:300px;">
+                        </div>
+                    {% endif %}
+                    <div class="btn-group btn-group-md">
+                        <button type="button" class="btn btn-danger"
+                                onclick="window.location.href='/mysite/deleteweibo/?weiboid={{ myweibo.id }}'">删除
+                        </button>
+                        <button type="button" class="btn btn-default">详细</button>
+                        <button type="button" class="btn btn-success"
+                                onclick="window.location.href='/mysite/writecomment/?weiboid={{ myweibo.id }}'">
+                            评论{{ myweibo.Comment_count }}</button>
+                    </div>
+                    <p style="font-size: 5px">{{ myweibo.date }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <hr style="color: black">
+            </div>
+        </div> <!--分割线-->
+    {% endfor %}
+</div>
+</body>
+</html>

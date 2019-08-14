@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="Xuyongxin_2016211447">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <title>你好!欢迎注册！</title>
+</head>
+<body style="text-align: center;background-image: url('/static/forbidden_city5.jpg');background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;">
+{% if logininfo == "error" %}
+    <script type="text/javascript">
+        alert("该账号已存在")
+    </script>
+{% endif %}
+{% if logininfo == "lack" %}
+    <script type="text/javascript">
+        alert("请输入邮箱")
+    </script>
+{% endif %}
+{% if logininfo == "repeate" %}
+    <script type="text/javascript">
+        alert("该邮箱已被注册")
+    </script>
+{% endif %}
+{% if logininfo == "wrong" %}
+    <script type="text/javascript">
+        alert("邮箱格式错误")
+    </script>
+{% endif %}
+<div style="margin-top: 20%;"></div>
+<div style=" opacity:0.8; background-color:#fff;min-width: 230px;width: 33%;border:10px;border-radius:10px;margin-left: auto;margin-right: auto;>
+	    <span><font size=" 5
+">欢迎注册！</font></span>
+<form name="form1" method="post" action="/mysite/registf/" onsubmit="return validForm()" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table width="300" border="0" align="center">
+        <div>
+            <tr>
+                <td align="left"><b>账号： </b></td>
+                <td><input type="text" name="username"/>
+                </td>
+                </td>
+            </tr>
+        </div>
+        <div>
+            <tr>
+                <td align="left"><b>密码： </b></td>
+                <td>
+                    <input type="password" name="pwd" size="20"/></td>
+            </tr>
+        </div>
+        <div>
+            <tr>
+                <td align="left"><b>邮箱： </b></td>
+                <td>
+                    <input type="text" name="email" size="20"/>
+                </td>
+            </tr>
+        </div>
+        <div>
+            <tr>
+                <td align="left"><b>昵称： </b></td>
+                <td><input type="text" name="nicheng"/>
+                </td>
+                </td>
+            </tr>
+        </div>
+        <div>
+            <tr>
+                <td>
+                <input id="touxiangImg" type="file" name="img"
+                       accept="image/gif, image/jpeg, image/png, image/jpg"/>
+                </td>
+            </tr>
+        </div>
+    </table>
+    <div style="margin-bottom:10px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+            type="submit" value="提交" name="regist">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置"
+                                                                                              name="text7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+            type="button" value="返回" name="back_home" onclick="window.location.href='/mysite/'">
+    </div>
+</form>
+</div>
+<script>
+    $(document).ready(function () {
+        $("input[type='submit']").click(function validForm() {
+            if ($("input[type='text']").val() == "") {
+                alert("请输入账号");
+                return false;
+            } else if ($("input[type='password']").val() == "") {
+                alert("请输入密码");
+                return false;
+            } else {
+                return true;
+            }
+        });
+    });
+</script>
+</body>
+</html>
