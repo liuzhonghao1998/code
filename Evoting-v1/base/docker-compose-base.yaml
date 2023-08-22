@@ -1,0 +1,386 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  orderer.evoting.com:
+    container_name: orderer.evoting.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/evoting.com/orderers/orderer.evoting.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/evoting.com/orderers/orderer.evoting.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.evoting.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  peer0.PublicOrgOne.evoting.com:
+    container_name: peer0.PublicOrg.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.PublicOrgOne.evoting.com
+      - CORE_PEER_ADDRESS=peer0.PublicOrgOne.evoting.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.PublicOrgOne.evoting.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      # 设置当前peer节点可否被外部感知。如果该节点想做连接SDK的客户端的话还是要被外部感知。
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.PublicOrgOne.evoting.com:7051
+      # 设置当前peer节点可否被内部其他节点感知
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.PublicOrgOne.evoting.com:7051
+      # 当该peer节点启动时，将自动连接的peer节点的地址。可以连接自己，也可以连接别人（同组的其他peer节点）。
+      # - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PublicOrg.evoting.com:8051
+      - CORE_PEER_LOCALMSPID=PublicOneMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PublicOrgOne.evoting.com/peers/peer0.PublicOrgOne.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PublicOrgOne.evoting.com/peers/peer0.PublicOrgOne.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.PublicOrgOne.evoting.com:/var/hyperledger/production
+    ports:
+      - 7051:7051 # peer节点默认的通信端口
+      - 7052:7052
+      - 7053:7053 # 某些事件默认的通信端口
+
+  peer1.PublicOrgOne.evoting.com:
+    container_name: peer1.PublicOrg.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.PublicOrgOne.evoting.com
+      - CORE_PEER_ADDRESS=peer1.PublicOrgOne.evoting.com:13051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:13051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.PublicOrgOne.evoting.com:13052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.PublicOrgOne.evoting.com:13051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer1.PublicOrgOne.evoting.com:13051
+      - CORE_PEER_LOCALMSPID=PublicOneMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PublicOrgOne.evoting.com/peers/peer1.PublicOrgOne.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PublicOrgOne.evoting.com/peers/peer1.PublicOrgOne.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.PublicOrgOne.evoting.com:/var/hyperledger/production
+    ports:
+      - 13051:13051 
+      - 13052:13052
+      - 13053:13053 
+
+  peer0.PublicOrgTwo.evoting.com:
+    container_name: peer0.PublicOrgTwo.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.PublicOrgTwo.evoting.com
+      - CORE_PEER_ADDRESS=peer0.PublicOrgTwo.evoting.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.PublicOrgTwo.evoting.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.PublicOrgTwo.evoting.com:8051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.PublicOrgTwo.evoting.com:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.PublicOrgTwo.evoting.com:8051
+      - CORE_PEER_LOCALMSPID=PublicTwoMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PublicOrgTwo.evoting.com/peers/peer0.PublicOrgTwo.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PublicOrgTwo.evoting.com/peers/peer0.PublicOrgTwo.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.PublicOrgTwo.evoting.com:/var/hyperledger/production
+    ports:
+      - 8051:8051
+      - 8052:8052
+      - 8053:8053
+
+  peer1.PublicOrgTwo.evoting.com:
+    container_name: peer1.PublicOrgTwo.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.PublicOrgTwo.evoting.com
+      - CORE_PEER_ADDRESS=peer1.PublicOrgTwo.evoting.com:14051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:14051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.PublicOrgTwo.evoting.com:14052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:14052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.PublicOrgTwo.evoting.com:14051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer1.PublicOrgTwo.evoting.com:14051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PublicOrgTwo.evoting.com:14051
+      - CORE_PEER_LOCALMSPID=PublicTwoMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PublicOrgTwo.evoting.com/peers/peer1.PublicOrgTwo.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PublicOrgTwo.evoting.com/peers/peer1.PublicOrgTwo.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.PublicOrgTwo.evoting.com:/var/hyperledger/production
+    ports:
+      - 14051:14051
+      - 14052:14052
+      - 14053:14053
+
+  peer0.PublicOrgThree.evoting.com:
+    container_name: peer0.PublicOrgThree.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.PublicOrgThree.evoting.com
+      - CORE_PEER_ADDRESS=peer0.PublicOrgThree.evoting.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.PublicOrgThree.evoting.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.PublicOrgThree.evoting.com:9051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.PublicOrgThree.evoting.com:9051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.PublicOrgThree.evoting.com:9051
+      - CORE_PEER_LOCALMSPID=PublicThreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PublicOrgThree.evoting.com/peers/peer0.PublicOrgThree.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PublicOrgThree.evoting.com/peers/peer0.PublicOrgThree.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.PublicOrgThree.evoting.com:/var/hyperledger/production
+    ports:
+      - 9051:9051
+      - 9052:9052
+      - 9053:9053
+
+  peer1.PublicOrgThree.evoting.com:
+    container_name: peer1.PublicOrgThree.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.PublicOrgThree.evoting.com
+      - CORE_PEER_ADDRESS=peer1.PublicOrgThree.evoting.com:15051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:15051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.PublicOrgThree.evoting.com:15052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:15052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.PublicOrgThree.evoting.com:15051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer1.PublicOrgThree.evoting.com:15051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PublicOrgThree.evoting.com:15051
+      - CORE_PEER_LOCALMSPID=PublicThreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PublicOrgThree.evoting.com/peers/peer1.PublicOrgThree.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PublicOrgThree.evoting.com/peers/peer1.PublicOrgThree.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.PublicOrgThree.evoting.com:/var/hyperledger/production
+    ports:
+      - 15051:15051
+      - 15052:15052
+      - 15053:15053
+
+  # peer2.PublicOrg.evoting.com:
+  #   container_name: peer2.PublicOrg.evoting.com
+  #   extends:
+  #     file: peer-base.yaml
+  #     service: peer-base
+  #   environment:
+  #     - CORE_PEER_ID=peer2.PublicOrg.evoting.com
+  #     - CORE_PEER_ADDRESS=peer2.PublicOrg.evoting.com:9051
+  #     - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+  #     - CORE_PEER_CHAINCODEADDRESS=peer2.PublicOrg.evoting.com:9052
+  #     - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+  #     # - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.PublicOrg.evoting.com:9051
+  #     - CORE_PEER_GOSSIP_ENDPOINT=peer2.PublicOrg.evoting.com:9051
+  #     - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PublicOrg.evoting.com:8051
+  #     - CORE_PEER_LOCALMSPID=PublicMSP
+  #   volumes:
+  #       - /var/run/:/host/var/run/
+  #       - ../crypto-config/peerOrganizations/PublicOrg.evoting.com/peers/peer2.PublicOrg.evoting.com/msp:/etc/hyperledger/fabric/msp
+  #       - ../crypto-config/peerOrganizations/PublicOrg.evoting.com/peers/peer2.PublicOrg.evoting.com/tls:/etc/hyperledger/fabric/tls
+  #       - peer2.PublicOrg.evoting.com:/var/hyperledger/production
+  #   ports:
+  #     - 9051:9051
+  #     - 9052:9052
+  #     - 9053:9053
+
+  peer0.PrivateOrgOne.evoting.com:
+    container_name: peer0.PrivateOrgOne.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.PrivateOrgOne.evoting.com
+      - CORE_PEER_ADDRESS=peer0.PrivateOrgOne.evoting.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.PrivateOrgOne.evoting.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.PrivateOrgOne.evoting.com:10051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.PrivateOrgOne.evoting.com:10051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.PrivateOrgOne.evoting.com:10051
+      - CORE_PEER_LOCALMSPID=PrivateOneMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer0.PrivateOrgOne.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer0.PrivateOrgOne.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.PrivateOrgOne.evoting.com:/var/hyperledger/production
+    ports:
+      - 10051:10051
+      - 10052:10052
+      - 10053:10053
+
+  peer1.PrivateOrgOne.evoting.com:
+    container_name: peer1.PrivateOrgOne.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.PrivateOrgOne.evoting.com
+      - CORE_PEER_ADDRESS=peer1.PrivateOrgOne.evoting.com:16051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:16051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.PrivateOrgOne.evoting.com:16052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:16052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.PrivateOrgOne.evoting.com:16051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer1.PrivateOrgOne.evoting.com:16051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PrivateOrgOne.evoting.com:16051
+      - CORE_PEER_LOCALMSPID=PrivateOneMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer1.PrivateOrgOne.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer1.PrivateOrgOne.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.PrivateOrgOne.evoting.com:/var/hyperledger/production
+    ports:
+      - 16051:16051
+      - 16052:16052
+      - 16053:16053
+
+  peer0.PrivateOrgTwo.evoting.com:
+    container_name: peer0.PrivateOrgTwo.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.PrivateOrgTwo.evoting.com
+      - CORE_PEER_ADDRESS=peer0.PrivateOrgTwo.evoting.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.PrivateOrgTwo.evoting.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.PrivateOrgTwo.evoting.com:11051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.PrivateOrgTwo.evoting.com:11051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.PrivateOrgTwo.evoting.com:11051
+      - CORE_PEER_LOCALMSPID=PrivateTwoMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PrivateOrgTwo.evoting.com/peers/peer0.PrivateOrgTwo.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PrivateOrgTwo.evoting.com/peers/peer0.PrivateOrgTwo.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.PrivateOrgTwo.evoting.com:/var/hyperledger/production
+    ports:
+      - 11051:11051
+      - 11052:11052
+      - 11053:11053
+
+  peer1.PrivateOrgTwo.evoting.com:
+    container_name: peer1.PrivateOrgTwo.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.PrivateOrgTwo.evoting.com
+      - CORE_PEER_ADDRESS=peer1.PrivateOrgTwo.evoting.com:17051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:17051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.PrivateOrgTwo.evoting.com:17052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:17052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.PrivateOrgTwo.evoting.com:17051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer1.PrivateOrgTwo.evoting.com:17051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PrivateOrgTwo.evoting.com:17051
+      - CORE_PEER_LOCALMSPID=PrivateTwoMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PrivateOrgTwo.evoting.com/peers/peer1.PrivateOrgTwo.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PrivateOrgTwo.evoting.com/peers/peer1.PrivateOrgTwo.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.PrivateOrgTwo.evoting.com:/var/hyperledger/production
+    ports:
+      - 17051:17051
+      - 17052:17052
+      - 17053:17053
+
+  peer0.PrivateOrgThree.evoting.com:
+    container_name: peer0.PrivateOrgThree.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.PrivateOrgThree.evoting.com
+      - CORE_PEER_ADDRESS=peer0.PrivateOrgThree.evoting.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.PrivateOrgThree.evoting.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.PrivateOrgThree.evoting.com:12051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.PrivateOrgThree.evoting.com:12051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.PrivateOrgThree.evoting.com:12051
+      - CORE_PEER_LOCALMSPID=PrivateThreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PrivateOrgThree.evoting.com/peers/peer0.PrivateOrgThree.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PrivateOrgThree.evoting.com/peers/peer0.PrivateOrgThree.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.PrivateOrgThree.evoting.com:/var/hyperledger/production
+    ports:
+      - 12051:12051
+      - 12052:12052
+      - 12053:12053
+
+  peer1.PrivateOrgThree.evoting.com:
+    container_name: peer1.PrivateOrgThree.evoting.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.PrivateOrgThree.evoting.com
+      - CORE_PEER_ADDRESS=peer1.PrivateOrgThree.evoting.com:18051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:18051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.PrivateOrgThree.evoting.com:18052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:18052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.PrivateOrgThree.evoting.com:18051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer1.PrivateOrgThree.evoting.com:18051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PrivateOrgThree.evoting.com:18051
+      - CORE_PEER_LOCALMSPID=PrivateThreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/PrivateOrgThree.evoting.com/peers/peer1.PrivateOrgThree.evoting.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/PrivateOrgThree.evoting.com/peers/peer1.PrivateOrgThree.evoting.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.PrivateOrgThree.evoting.com:/var/hyperledger/production
+    ports:
+      - 18051:18051
+      - 18052:18052
+      - 18053:18053
+  # peer2.PrivateOrg.evoting.com:
+  #   container_name: peer2.PrivateOrg.evoting.com
+  #   extends:
+  #     file: peer-base.yaml
+  #     service: peer-base
+  #   environment:
+  #     - CORE_PEER_ID=peer2.PrivateOrg.evoting.com
+  #     - CORE_PEER_ADDRESS=peer2.PrivateOrg.evoting.com:12051
+  #     - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+  #     - CORE_PEER_CHAINCODEADDRESS=peer2.PrivateOrg.evoting.com:12052
+  #     - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+  #     - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.PrivateOrg.evoting.com:12051
+  #     - CORE_PEER_GOSSIP_ENDPOINT=peer2.PrivateOrg.evoting.com:12051
+  #     - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.PrivateOrg.evoting.com:11051
+  #     - CORE_PEER_LOCALMSPID=PrivateMSP
+  #   volumes:
+  #       - /var/run/:/host/var/run/
+  #       - ../crypto-config/peerOrganizations/PrivateOrg.evoting.com/peers/peer2.PrivateOrg.evoting.com/msp:/etc/hyperledger/fabric/msp
+  #       - ../crypto-config/peerOrganizations/PrivateOrg.evoting.com/peers/peer2.PrivateOrg.evoting.com/tls:/etc/hyperledger/fabric/tls
+  #       - peer2.PrivateOrg.evoting.com:/var/hyperledger/production
+  #   ports:
+  #     - 12051:12051
+  #     - 12052:12052
+  #     - 12053:12053

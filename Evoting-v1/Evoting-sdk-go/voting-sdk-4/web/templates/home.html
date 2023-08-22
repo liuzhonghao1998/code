@@ -1,0 +1,29 @@
+{{define "title"}}Home{{end}}
+
+{{define "body"}}
+<div class="container">
+
+</div>
+<h1>Home</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CandidateNum</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Candidate_1</td>
+            <td>{{.Candidate_1}}</td>
+        </tr>
+        <tr>
+            <td>Candidate_2</td>
+            <td>{{.Candidate_2}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="request.html">Vote</a>
+{{end}}

@@ -1,0 +1,63 @@
+{{define "title"}}Home{{end}}
+
+{{define "body"}}
+<div class="container">
+
+</div>
+<h1>Home</h1>
+
+<h2>The Candidates</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>CandidateNum</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Candidate_1</td>
+            <td>Jason</td>
+        </tr>
+        <tr>
+            <td>Candidate_2</td>
+            <td>Michael</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>The Key and Ring Signature</h2>
+<table class="table">
+    <tbody>
+        <tr>
+            <td>Size</td>
+            <td>{{.Size}}</td>
+        </tr>
+        <tr>
+            <td>M</td>
+            <td>{{.M}}</td>
+        </tr>
+        <tr>
+            <td>C</td>
+            <td>{{.C}}</td>
+        </tr>
+        <tr>
+            <td>S</td>
+            <td>{{.S}}</td>
+        </tr>
+        <tr>
+            <td>Ring</td>
+            <td>{{.Ring}}</td>
+        </tr>
+        <tr>
+            <td>Key Image</td>
+            <td>{{.I}}</td>
+        <tr>
+            <td>Curve</td>
+            <td>{{.Curve}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="request.html">Vote</a>
+{{end}}

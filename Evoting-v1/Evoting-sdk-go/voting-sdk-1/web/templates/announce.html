@@ -1,0 +1,29 @@
+{{define "title"}}Announce{{end}}
+{{define "body"}}
+
+<h2>Announce</h2>
+
+<br>
+
+<table class="table table-striped">
+	<caption>结果公布</caption>
+	<thead>
+		<tr>
+			<th>{{.Candidate_1}}</th>
+			<th>{{.Candidate_2}}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{.Amount_1}}</td>
+			<td>{{.Amount_2}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<a href="home.html">Back to Home</a>
+
+<!-- <script language="JavaScript">
+    setTimeout(function(){location.reload()},3000); //指定1秒刷新一次
+</script> -->
+{{end}}

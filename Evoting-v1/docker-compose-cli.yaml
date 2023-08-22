@@ -1,0 +1,229 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  orderer.evoting.com:
+  peer0.PublicOrgOne.evoting.com:
+  peer0.PublicOrgTwo.evoting.com:
+  peer0.PublicOrgThree.evoting.com:
+  # peer1.PublicOrgOne.evoting.com:
+  # peer1.PublicOrgTwo.evoting.com:
+  # peer1.PublicOrgThree.evoting.com:
+  # peer1.PublicOrg.evoting.com:
+  # peer2.PublicOrg.evoting.com:
+  peer0.PrivateOrgOne.evoting.com:
+  peer0.PrivateOrgTwo.evoting.com:
+  peer0.PrivateOrgThree.evoting.com:
+  # peer1.PrivateOrgOne.evoting.com:
+  # peer1.PrivateOrgTwo.evoting.com:
+  # peer1.PrivateOrgThree.evoting.com:
+
+networks:
+  evoting:
+
+services:
+
+  orderer.evoting.com:
+    # network_mode: "host"
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: orderer.evoting.com
+    container_name: orderer.evoting.com
+    # extra_hosts: 
+    #   - "peer0.PublicOrg.evoting.com:175.159.7.147"
+    #   - "peer1.PublicOrg.evoting.com:175.159.7.147"
+    #   - "peer2.PublicOrg.evoting.com:175.159.7.147"    
+    networks:
+      - evoting
+
+  peer0.PublicOrgOne.evoting.com:
+    container_name: peer0.PublicOrgOne.evoting.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.PublicOrgOne.evoting.com
+    # extra_hosts:
+    #   - "orderer.evoting.com:10.11.199.45"
+    #   - "peer1.PublicOrg.evoting.com:175.159.7.147"
+    #   - "peer2.PublicOrg.evoting.com:175.159.7.147"
+    networks:
+      - evoting
+
+  # peer1.PublicOrgOne.evoting.com:
+  #   container_name: peer1.PublicOrgOne.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PublicOrgOne.evoting.com
+  #   networks:
+  #     - evoting
+
+  peer0.PublicOrgTwo.evoting.com:
+    container_name: peer0.PublicOrgTwo.evoting.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.PublicOrgTwo.evoting.com
+    networks:
+      - evoting
+
+  # peer1.PublicOrgTwo.evoting.com:
+  #   container_name: peer1.PublicOrgTwo.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PublicOrgTwo.evoting.com
+  #   networks:
+  #     - evoting
+
+  peer0.PublicOrgThree.evoting.com:
+    container_name: peer0.PublicOrgThree.evoting.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.PublicOrgThree.evoting.com
+    networks:
+      - evoting
+
+  # peer1.PublicOrgThree.evoting.com:
+  #   container_name: peer1.PublicOrgThree.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PublicOrgThree.evoting.com
+  #   networks:
+  #     - evoting
+
+  # peer1.PublicOrg.evoting.com:
+  #   container_name: peer1.PublicOrg.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PublicOrg.evoting.com
+  #   networks:
+  #     - evoting
+
+  # peer2.PublicOrg.evoting.com:
+  #   container_name: peer2.PublicOrg.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer2.PublicOrg.evoting.com
+  #   networks:
+  #     - evoting
+
+  peer0.PrivateOrgOne.evoting.com:
+    container_name: peer0.PrivateOrgOne.evoting.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.PrivateOrgOne.evoting.com
+    networks:
+      - evoting
+
+  # peer1.PrivateOrgOne.evoting.com:
+  #   container_name: peer1.PrivateOrgOne.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PrivateOrgOne.evoting.com
+  #   networks:
+  #     - evoting
+
+  peer0.PrivateOrgTwo.evoting.com:
+    container_name: peer0.PrivateOrgTwo.evoting.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.PrivateOrgTwo.evoting.com
+    # extra_hosts:
+    #   - "orderer.evoting.com:10.11.199.45" 
+    #   - "peer0.PrivateOrg.evoting.com:10.11.199.45"
+    #   - "peer2.PrivateOrg.evoting.com:10.11.199.45"
+    networks:
+      - evoting
+
+  # peer1.PrivateOrgTwo.evoting.com:
+  #   container_name: peer1.PrivateOrgTwo.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PrivateOrgTwo.evoting.com
+  #   networks:
+  #     - evoting
+
+  peer0.PrivateOrgThree.evoting.com:
+    container_name: peer0.PrivateOrgThree.evoting.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.PrivateOrgThree.evoting.com
+    networks:
+      - evoting
+
+  # peer1.PrivateOrgThree.evoting.com:
+  #   container_name: peer1.PrivateOrgThree.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer1.PrivateOrgThree.evoting.com
+  #   networks:
+  #     - evoting
+
+  # peer2.PrivateOrg.evoting.com:
+  #   container_name: peer2.PrivateOrg.evoting.com
+  #   extends:
+  #     file:  base/docker-compose-base.yaml
+  #     service: peer2.PrivateOrg.evoting.com
+  #   # extra_hosts:
+  #     # - "orderer.evoting.com:10.11.199.45" 
+  #     # - "peer0.PrivateOrg.evoting.com:10.11.199.45"
+  #     # - "peer1.PrivateOrg.evoting.com:10.11.199.45"
+  #   networks:
+  #     - evoting    
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_ADDRESS=peer0.PrivateOrgOne.evoting.com:10051
+      - CORE_PEER_LOCALMSPID=PrivateOneMSP
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer0.PrivateOrgOne.evoting.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer0.PrivateOrgOne.evoting.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/PrivateOrgOne.evoting.com/peers/peer0.PrivateOrgOne.evoting.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/PrivateOrgOne.evoting.com/users/Admin@PrivateOrgOne.evoting.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+        - ./../../../go:/opt/gopath
+    depends_on:
+      - orderer.evoting.com
+      - peer0.PublicOrgOne.evoting.com
+      - peer0.PublicOrgTwo.evoting.com
+      - peer0.PublicOrgThree.evoting.com
+      # - peer1.PublicOrgOne.evoting.com
+      # - peer1.PublicOrgTwo.evoting.com
+      # - peer1.PublicOrgThree.evoting.com
+      # - peer1.PublicOrg.evoting.com
+      # - peer2.PublicOrg.evoting.com
+      - peer0.PrivateOrgOne.evoting.com
+      - peer0.PrivateOrgTwo.evoting.com
+      - peer0.PrivateOrgThree.evoting.com
+      # - peer1.PrivateOrgOne.evoting.com
+      # - peer1.PrivateOrgTwo.evoting.com
+      # - peer1.PrivateOrgThree.evoting.com
+      # - peer2.PrivateOrg.evoting.com
+
+    # extra_hosts: 
+    #   - "orderer.evoting.com:10.11.199.45"
+    #   - "peer0.PrivateOrg.evoting.com:10.11.199.45"
+    #   - "peer1.PrivateOrg.evoting.com:10.11.199.45"
+    #   - "peer2.PrivateOrg.evoting.com:10.11.199.45"
+    #   - "peer0.PublicOrg.evoting.com:10.11.199.45"
+      # - "peer1.PublicOrg.evoting.com:175.159.7.147"
+      # - "peer2.PublicOrg.evoting.com:175.159.7.147"
+    networks: 
+      - evoting

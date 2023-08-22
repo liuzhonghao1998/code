@@ -1,0 +1,66 @@
+{{define "title"}}Delivery{{end}}
+{{define "body"}}
+<h2>Delivery</h2>
+
+<form class="form-inline" action="delivery.html" method="post">
+    <div class="form-group">
+        <input type="hidden" name="MessageType" id="start" value="start"><!--区块数从0开始，但真正但数据从1开始-->
+    </div>
+    <input type="hidden" name="submitted" value="true">
+    <button type="submit" class="btn btn-danger">START!</button>
+</form>
+<br>
+
+{{ if .Response }}
+<div class="alert alert-success" role="alert">
+    Successful request, deliveryTransaction ID: {{ .DeliveryTransactionId }}
+</div>
+{{ end }}
+
+{{if .Start}}
+<h3><span class="label label-danger">The latest number of votes we have collect is </span>&nbsp&nbsp<span class="label label-danger">{{.CurrentHeight}}</span></h3>
+
+<form class="form-inline" action="delivery.html" method="post">
+    <div class="form-group">
+        <input type="hidden" name="MessageType" id="Query" value="query"><!--区块数从0开始，但真正但数据从1开始-->
+
+        <label for="BlockNum">BlockNum</label>
+        <input type="text" class="form-control" name="NextBlockInput" id="BlockNum" value="{{.BlockNum}}" readonly>
+    </div>
+    {{if .Query}}
+    <input type="hidden" name="submitted" value="true">
+    <button type="submit" class="btn btn-default">Send the block number</button>
+    {{end}}
+</form>
+
+<br>
+
+<form class="form-inline" action="delivery.html" method="post">
+    <div class="form-group">
+        <input type="hidden" name="MessageType" id="Delivery" value="delivery">
+
+        <h4><span class="label label-primary">Txid</span></h4>
+        <input type="text" class="form-control" id="TxID" name="TxID" value="{{.TxID}}" readonly style="width: 550px;">
+
+        <h4><span class="label label-primary">BlockNum</span></h4>
+        <input type="text" class="form-control" id="BlockNum" name="BlockNum" value="{{.BlockNum}}" readonly>
+
+        <h4><span class="label label-primary">Candidate</span></h4>
+        <input type="text" class="form-control" id="Candidate" name="Candidate" value="{{.Candidate}}" readonly >
+        
+        <h4><span class="label label-primary">Locations</span></h4>
+        <input type="text" class="form-control" id="HashedGeo" name="HashedGeo" value="{{.HashedGeo}}" readonly>
+
+        <h4><span class="label label-primary">LinkableRingSignature</span></h4>
+        <input type="text" class="form-control" id="LinkableRingSign" name="LinkableRingSign" value="{{.LinkableRingSign}}" readonly style="width: 550px;">
+    </div>
+    <br>
+    <br>
+    {{if .Success}}
+    <input type="hidden" name="submitted" value="true">
+    <button type="submit" class="btn btn-default">Send the request</button>
+    {{end}}
+</form>
+{{end}}
+<a href="home.html">Back to Home</a>
+{{end}}

@@ -1,0 +1,35 @@
+{{define "title"}}Reporting{{end}}
+{{define "body"}}
+
+<h2>Reporting</h2>
+
+<br>
+
+<table class="table table-striped">
+	<caption>公链阶段性结果展示</caption>
+	<thead>
+		<tr>
+			<th>TxID</th>
+			<th>BlockNum</th>
+			<th>Candidate</th>
+            <th>HashedGeo</th>
+		</tr>
+	</thead>
+	<tbody>
+        {{range .Showlist}}
+		<tr>
+			<td>{{.TxID}}</td>
+			<td>{{.BlockNum}}</td>
+			<td>{{.Candidate}}</td>
+            <td>{{.HashedGeo}}</td>
+		</tr>
+        {{end}}
+	</tbody>
+</table>
+
+<a href="home.html">Back to Home</a>
+
+<script language="JavaScript">
+    setTimeout(function(){location.reload()},3000); //指定1秒刷新一次
+</script>
+{{end}}

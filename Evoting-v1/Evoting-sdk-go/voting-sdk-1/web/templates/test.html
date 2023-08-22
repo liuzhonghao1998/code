@@ -1,0 +1,26 @@
+{{define "title"}}Test{{end}}
+
+{{define "body"}}
+<h1>Test</h1>
+
+{{ if .Response }}
+{{ if .Success }}
+<div class="alert alert-success" role="alert">
+   <p>Successful Request </p>
+   <p>private transaction ID: {{ .TransactionIdinPrivate }}</p>
+   <p>private block height: {{ .PrivateHeight}}</p>
+   <p>private timestamp: {{ .PrivateTimestamp}}</p>
+</div>
+<div class="alert alert-info" role="alert">
+    <p>Successful Request</p>
+    <p>public transaction ID: {{ .TransactionIdinPublic}}</p>
+    <p>public block height: {{ .PublicHeight}}</p>
+    <p>public timestamp: {{ .PublicTimestamp}}</p>
+</div>
+{{ else }}
+<div class="alert alert-danger" role="alert">
+    Unable to submit the request, retry later.
+</div>
+{{ end }}
+{{ end }}
+{{end}}
